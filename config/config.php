@@ -1,7 +1,7 @@
 <?php
 
 # Host.
-define('URL', 'http://localhost/bd/');
+define('URL', 'http://localhost/bd_proyect/');
 
 # Db connection. 
 define('DB', 'test');
