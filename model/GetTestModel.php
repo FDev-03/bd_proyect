@@ -1,0 +1,51 @@
+<?php
+
+/**
+ * 
+ */
+class GetTestModel extends ModelBase {
+
+	public $id;
+
+	public $name;
+
+	public $lastname;
+
+	public $number;
+	
+	function __construct() {
+		parent::__construct();
+	}
+
+	function getData() {
+		try{
+			$query = "SELECT * FROM prueba";
+			$connection = $this->db->connect();
+			$response = [];
+			foreach ($connection->query($query) as $row) {
+				$get = new GetTestModel();
+				$get->id = $row['id'];
+				$get->name = $row['name'];
+				$get->lastname = $row['lastname'];
+				$get->number = $row['number'];
+				$response[] = $get;
+			}
+			return $response;
+		}catch(PDOException $e){
+			echo "Error!";
+		}
+	}
+
+	function deleteRow($row_id){
+		try{
+			$sql_query = "DELETE FROM prueba WHERE id = :id";
+			$query = $this->db->connect()->prepare($sql_query);
+			$query->execute(array(
+				'id' => $row_id
+			));
+			return TRUE;
+		}catch(PDOException $e){
+			return FALSE;
+		}
+	}
+}

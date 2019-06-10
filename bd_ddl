@@ -1,0 +1,17 @@
+create database test;
+
+use test;
+
+create table prueba(
+	id int NOT NULL AUTO_INCREMENT,
+	name varchar(50) NOT NULL,
+	lastname varchar(50),
+	number int,
+	PRIMARY KEY (id)
+);
+
+ALTER TABLE prueba AUTO_INCREMENT=1;
+
+INSERT INTO prueba (name,lastname,number) VALUES
+('Fer','Torres',3),
+('Juan','Diaz',5);
