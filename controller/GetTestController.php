@@ -21,6 +21,23 @@ class GetTestController extends ControllerBase {
 		echo json_encode($data);
 	}
 
+	function getspecific(){
+		$response = array(
+			'status' => FALSE,
+			'message' =>'Bad Request!'
+		);
+		if (isset($_POST['form_input']['value'])) {
+			$result = $this->model->getSpecific($_POST['form_input']['value']);
+			if ($result != FALSE) {
+				$response['status'] = TRUE;
+				$response['message'] = 'Completed.';
+				$response['data'] = $result;
+			}
+		}
+		echo json_encode($response);
+		return;	
+	}
+
 	function deletetest() {
 		$response = array(
 			'status' => FALSE,

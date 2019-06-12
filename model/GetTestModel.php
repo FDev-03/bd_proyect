@@ -36,6 +36,21 @@ class GetTestModel extends ModelBase {
 		}
 	}
 
+	function getSpecific($id){
+		try{
+
+			$sql_query = "SELECT name, lastname, number FROM prueba WHERE id = :id";
+			$query = $this->db->connect()->prepare($sql_query);
+			$query->execute(array(
+				'id' => $id
+			));
+			$result = $query->fetch();
+			return $result;
+		}catch(PDOException $e){
+			return FALSE;
+		}
+	}
+
 	function deleteRow($row_id){
 		try{
 			$sql_query = "DELETE FROM prueba WHERE id = :id";

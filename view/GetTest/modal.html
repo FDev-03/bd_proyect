@@ -1,0 +1,16 @@
+<div class="modal-header">
+  <h3 class="modal-title center" id="modal-title">Update fields</h3>
+</div>
+<div class="modal-body" id="modal-body">
+  <div class="center">
+    <form >
+      <div>Nombre : <input type="text" ng-model="name" ng-value="name" required></div>
+      <div>Apellido : <input type="text" ng-value="lastname" ng-model="lastname"></div>
+      <div>Número : <input type="number" ng-value="number" ng-model="number"></div>
+    </form>
+  </div>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-primary" type="button" ng-click="Update()">Update</button>
+  <button class="btn btn-warning" type="button" ng-click="Cancel()">Cancel</button>
+</div>
