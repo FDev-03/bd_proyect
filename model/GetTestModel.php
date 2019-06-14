@@ -12,15 +12,38 @@ class GetTestModel extends ModelBase {
 	public $lastname;
 
 	public $number;
+
+	private $ndata = 10;
 	
 	function __construct() {
 		parent::__construct();
 	}
 
+	private function countRows($connection){
+		$query = "SELECT count(*) FROM prueba";
+
+		if ($res = $connection->query($query)) {
+			return $res->fetchColumn();
+		}
+		return 1;
+	}
+
 	function getData() {
+
 		try{
-			$query = "SELECT * FROM prueba";
+			
 			$connection = $this->db->connect();
+			$nRows = $this->countRows($connection);
+			$nAvailable = ceil($nRows/$this->ndata);
+			$npage = $_GET['npage'];
+		
+			if (!is_numeric($npage) || $npage<1 || $npage > $nAvailable) {
+				return FALSE;
+			}
+			
+			$start_point = ($npage * $this->ndata) - $this->ndata;
+			$query = "SELECT * FROM prueba LIMIT $start_point, $this->ndata";
+			
 			$response = [];
 			foreach ($connection->query($query) as $row) {
 				$get = new GetTestModel();
@@ -28,8 +51,9 @@ class GetTestModel extends ModelBase {
 				$get->name = $row['name'];
 				$get->lastname = $row['lastname'];
 				$get->number = $row['number'];
-				$response[] = $get;
+				$response['data'][] = $get;
 			}
+			$response['available'] = range(1, $nAvailable);
 			return $response;
 		}catch(PDOException $e){
 			echo "Error!";

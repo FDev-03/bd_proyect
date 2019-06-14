@@ -1,17 +1,30 @@
 var app = angular.module('GetApp', ['ngAnimate', 'ngSanitize', 'ui.bootstrap']);
 
-app.controller('GetCtrl', function($scope, $http, $httpParamSerializerJQLike, $uibModal, $log) {
+app.controller('GetCtrl', function($scope, $http, $httpParamSerializerJQLike, $uibModal, $location, $window) {
+	
+	var absurl = $location.absUrl();
+	var url = new URL(absurl);
+	$scope.npage = url.searchParams.get("page");
+
+	if ($scope.npage === null) {
+		$scope.npage = 1;
+	}
 
 	$scope.url_base = 'gettest/';
 	$scope.data = '';
 	$http({
-		url: $scope.url_base + 'gettest',
-		method: 'POST',
+		url: $scope.url_base + 'gettest?npage=' + $scope.npage,
+		method: 'GET',
 		headers: {
 			'Content-Type': 'application/json'
 		}
 	}).then(function (response) {
-		$scope.data = response.data
+		if (response.data == 'false') {
+			$window.location.href = 'http://localhost/bd_proyect/main/error';
+		}else{
+			$scope.data = response.data.data
+			$scope.test = response.data.available
+		}
 	});
 
 	$scope.updateRow = function(row_id){
@@ -19,7 +32,7 @@ app.controller('GetCtrl', function($scope, $http, $httpParamSerializerJQLike, $u
       animation: true,
       ariaLabelledBy: 'modal-title',
       ariaDescribedBy: 'modal-body',
-      templateUrl: 'http://localhost/bd_proyect/view/GetTest/modal.html',
+      templateUrl: 'http://localhost/bd_proyect',
       controller: 'ModalInstanceCtrl',
       resolve: {
         data: function () {

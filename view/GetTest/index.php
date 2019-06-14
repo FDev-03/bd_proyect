@@ -21,6 +21,13 @@
 					<td><button ng-click="deleteRow(field.id)">Delete</button></td>
 				</tr>
 			</table>
+			<div id="pager">
+				<ul>
+					<li ng-repeat="number in test">
+						<a href="<?php echo constant('URL');?>gettest?page={{number}}">Page {{number}}</a>
+					</li>
+				</ul>
+			</div>
 		</div>
 	</body>
 	<?php require "view/footer.php"; ?>
