@@ -1,6 +1,12 @@
 var app = angular.module('GetApp', ['ngAnimate', 'ngSanitize', 'ui.bootstrap']);
 
-app.controller('GetCtrl', function($scope, $http, $httpParamSerializerJQLike, $uibModal, $location, $window) {
+app.factory('ConfigVariables', function() {
+  return {
+		URL : 'http://localhost/bd_proyect/'
+  };
+});
+
+app.controller('GetCtrl', function($scope, $http, $httpParamSerializerJQLike, $uibModal, $location, $window, ConfigVariables) {
 	
 	var absurl = $location.absUrl();
 	var url = new URL(absurl);
@@ -20,7 +26,7 @@ app.controller('GetCtrl', function($scope, $http, $httpParamSerializerJQLike, $u
 		}
 	}).then(function (response) {
 		if (response.data == 'false') {
-			$window.location.href = 'http://localhost/bd_proyect/main/error';
+			$window.location.href = ConfigVariables.URL + 'main/error';
 		}else{
 			$scope.data = response.data.data
 			$scope.test = response.data.available
@@ -32,7 +38,7 @@ app.controller('GetCtrl', function($scope, $http, $httpParamSerializerJQLike, $u
       animation: true,
       ariaLabelledBy: 'modal-title',
       ariaDescribedBy: 'modal-body',
-      templateUrl: 'http://localhost/bd_proyect',
+      templateUrl: ConfigVariables.URL + 'view/GetTest/modal.html',
       controller: 'ModalInstanceCtrl',
       resolve: {
         data: function () {
