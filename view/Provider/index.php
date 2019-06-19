@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html>
-	<?php require "view/header.php"; ?>
-	<script src="<?php echo constant('URL'); ?>js/FunctionsBase.js"></script>
-	<body ng-app="AppBase" ng-controller="GetCtrl">
+	<head>
+		<?php require "view/header.php"; ?>
+		<script src="<?php echo constant('URL'); ?>js/FunctionsBase.js"></script>
+	</head>
+	<body ng-app="AppBase" ng-controller="Provider">
 		<div>
-			<h1 class="center"> Get (Prueba) </h1>
-			<table>
+			<h1 class="center"> Proveedores Contratados </h1>
+<!-- 			<table>
 				<tr>
 					<th>ID</th>
 					<th>NAME</th>
@@ -27,8 +29,10 @@
 						<a href="<?php echo constant('URL');?>gettest?page={{number}}">Page {{number}}</a>
 					</li>
 				</ul>
-			</div>
+			</div> -->
 		</div>
 	</body>
-	<?php require "view/footer.php"; ?>
+	<footer>
+		<?php require "view/footer.php"; ?>
+	</footer>
 </html>

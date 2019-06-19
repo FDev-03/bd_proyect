@@ -13,6 +13,7 @@
 		<div id="header">
 			<ul>
 				<li><a href="<?php echo constant('URL'); ?>main">INICIO</a></li>
+				<li><a href="<?php echo constant('URL'); ?>provider">Proveedores</a></li>
 				<li><a href="<?php echo constant('URL'); ?>help">AYUDA</a></li>
 				<li><a href="<?php echo constant('URL'); ?>settest">SET (Prueba)</a></li>
 				<li><a href="<?php echo constant('URL'); ?>gettest">GET (Prueba)</a></li>

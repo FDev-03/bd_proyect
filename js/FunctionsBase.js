@@ -1,6 +1,6 @@
-var app = angular.module('GetApp', ['ngAnimate', 'ngSanitize', 'ui.bootstrap']);
+var app = angular.module('AppBase', ['ngAnimate', 'ngSanitize', 'ui.bootstrap']);
 
-app.factory('ConfigVariables', function() {
+app.factory('ConfigVariables', function($http) {
   return {
 		URL : 'http://localhost/bd_proyect/'
   };
@@ -108,4 +108,9 @@ app.controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, $http, 
   $scope.Cancel = function () {
     $uibModalInstance.close();
   };
+});
+
+app.controller('Provider', function($scope, ConfigVariables){
+	console.log("here!")
+
 });
