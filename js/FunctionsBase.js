@@ -2,7 +2,8 @@ var app = angular.module('AppBase', ['ngAnimate', 'ngSanitize', 'ui.bootstrap'])
 
 app.factory('ConfigVariables', function($http) {
   return {
-		URL : 'http://localhost/bd_proyect/'
+		//URL : 'http://localhost/bd_proyect/'
+		URL : 'http://192.168.44.44/bd_proyect/'
   };
 });
 
@@ -110,7 +111,30 @@ app.controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, $http, 
   };
 });
 
-app.controller('Provider', function($scope, ConfigVariables){
+app.controller('Provider', function($scope, $http, $location, $window, ConfigVariables){
 	console.log("here!")
+	var absurl = $location.absUrl();
+	var url = new URL(absurl);
+	$scope.npage = url.searchParams.get("page");
+
+	if ($scope.npage === null) {
+		$scope.npage = 1;
+	}
+	$scope.dataProvider = '';
+	$http({
+		url: ConfigVariables.URL + 'provider/getProviders?npage=' + $scope.npage,
+		method: 'GET',
+		headers: {
+			'Content-Type': 'application/json'
+		}
+	}).then(function (response) {
+		if (response.data == 'false') {
+			$window.location.href = ConfigVariables.URL + 'main/error';
+		}else{
+			$scope.dataProvider = response.data.data
+			$scope.pagerProvider = response.data.available
+		}
+	});
+
 
 });

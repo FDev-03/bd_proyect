@@ -12,20 +12,9 @@ class GetTestModel extends ModelBase {
 	public $lastname;
 
 	public $number;
-
-	private $ndata = 10;
 	
 	function __construct() {
 		parent::__construct();
-	}
-
-	private function countRows($connection){
-		$query = "SELECT count(*) FROM prueba";
-
-		if ($res = $connection->query($query)) {
-			return $res->fetchColumn();
-		}
-		return 1;
 	}
 
 	function getData() {
@@ -33,7 +22,7 @@ class GetTestModel extends ModelBase {
 		try{
 			
 			$connection = $this->db->connect();
-			$nRows = $this->countRows($connection);
+			$nRows = $this->countRows($connection, 'prueba');
 			$nAvailable = ceil($nRows/$this->ndata);
 			$npage = $_GET['npage'];
 		

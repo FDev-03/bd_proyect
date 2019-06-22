@@ -12,4 +12,9 @@ class ProviderController extends ControllerBase{
 	function render() {
 		$this->viewBase->render('Provider/index');
 	}
+
+	function getProviders() {
+		$data = $this->model->getProviders();
+		echo json_encode($data);
+	}
 }

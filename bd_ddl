@@ -1,3 +1,5 @@
+// BD (Secciones de pruebas)
+
 create database test;
 
 use test;
@@ -15,3 +17,29 @@ ALTER TABLE prueba AUTO_INCREMENT=1;
 INSERT INTO prueba (name,lastname,number) VALUES
 ('Fer','Torres',3),
 ('Juan','Diaz',5);
+
+
+// BD (Secciones del proyecto)
+
+create database vestirnossas;
+
+use vestirnossas;
+
+create table proveedor(
+	id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	nombre_contacto varchar(40) NOT NULL,
+	razon_social varchar(40) NOT NULL,
+	motivo varchar(100),
+	fecha_retiro DATE
+);
+
+create table telefono(
+	numero int NOT NULL,
+	id_proveedor int NOT NULL,
+	PRIMARY KEY (numero, id_proveedor),
+	FOREIGN KEY (id_proveedor) REFERENCES proveedor(id)
+);
+
+INSERT INTO proveedor (nombre_contacto, razon_social) VALUES
+('Fer','FDev'),
+('Juan','JDev');

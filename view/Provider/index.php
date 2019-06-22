@@ -7,29 +7,27 @@
 	<body ng-app="AppBase" ng-controller="Provider">
 		<div>
 			<h1 class="center"> Proveedores Contratados </h1>
-<!-- 			<table>
+			<table>
 				<tr>
 					<th>ID</th>
-					<th>NAME</th>
-					<th>LASTNAME</th>
-					<th>NUMBER</th>
+					<th>NOMBRE DE CONTACTO</th>
+					<th>RAZÓN SOCIAL</th>
 				</tr>
-				<tr ng-repeat="field in data">
+				<tr ng-repeat="field in dataProvider">
 					<td>{{ field.id }}</td>
-					<td>{{ field.name }}</td>
-					<td>{{ field.lastname }}</td>
-					<td>{{ field.number }}</td>
+					<td>{{ field.nombre_contacto }}</td>
+					<td>{{ field.razon_social }}</td>
 					<td><button ng-click="updateRow(field.id)">Update</button></td>
 					<td><button ng-click="deleteRow(field.id)">Delete</button></td>
 				</tr>
 			</table>
 			<div id="pager">
 				<ul>
-					<li ng-repeat="number in test">
-						<a href="<?php echo constant('URL');?>gettest?page={{number}}">Page {{number}}</a>
+					<li ng-repeat="nPage in pagerProvider">
+						<a href="<?php echo constant('URL');?>gettest?page={{nPage}}">Page {{nPage}}</a>
 					</li>
 				</ul>
-			</div> -->
+			</div>
 		</div>
 	</body>
 	<footer>
