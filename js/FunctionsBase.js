@@ -2,8 +2,8 @@ var app = angular.module('AppBase', ['ngAnimate', 'ngSanitize', 'ui.bootstrap'])
 
 app.factory('ConfigVariables', function($http) {
   return {
-		//URL : 'http://localhost/bd_proyect/'
-		URL : 'http://192.168.44.44/bd_proyect/'
+		URL : 'http://localhost/bd_proyect/'
+		//URL : 'http://192.168.44.44/bd_proyect/'
   };
 });
 
@@ -111,18 +111,28 @@ app.controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, $http, 
   };
 });
 
-app.controller('Provider', function($scope, $http, $location, $window, ConfigVariables){
-	console.log("here!")
+app.controller('Provider', function($scope, $http, $location, $window, $httpParamSerializerJQLike, ConfigVariables){
+
 	var absurl = $location.absUrl();
 	var url = new URL(absurl);
+	var route_parameters = "";
 	$scope.npage = url.searchParams.get("page");
+	$scope.service = url.searchParams.get("service");
 
 	if ($scope.npage === null) {
 		$scope.npage = 1;
 	}
+
+	if ($scope.service != null && $scope.service != "false" && $scope.service != "true") {
+		$window.location.href = ConfigVariables.URL + 'main/error';
+	}else{
+		route_parameters = "&service=" + $scope.service;
+		$scope.service = ($scope.service === 'true');
+	}
+
 	$scope.dataProvider = '';
 	$http({
-		url: ConfigVariables.URL + 'provider/getProviders?npage=' + $scope.npage,
+		url: ConfigVariables.URL + 'provider/getProviders?npage=' + $scope.npage + route_parameters,
 		method: 'GET',
 		headers: {
 			'Content-Type': 'application/json'
@@ -136,5 +146,23 @@ app.controller('Provider', function($scope, $http, $location, $window, ConfigVar
 		}
 	});
 
+	$scope.deleteRow = function(row_id){
+		$http({
+			url: ConfigVariables.URL + 'provider/deleteProviders',
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/x-www-form-urlencoded'
+			},
+			data: $httpParamSerializerJQLike({'form_input': {'value':row_id}})
+		}).then(function (response) {
+			if ($scope.npage <= response.data.available) {
+				location.reload();
+			}else if($scope.npage == 1) {
+				$window.location.href = ConfigVariables.URL + 'provider?npage=1' + route_parameters;
+			}else{
+				$window.location.href = ConfigVariables.URL + 'provider?npage=' + ($scope.npage-1) + route_parameters;
+			}
+		});
+	}
 
 });

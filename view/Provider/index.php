@@ -6,17 +6,21 @@
 	</head>
 	<body ng-app="AppBase" ng-controller="Provider">
 		<div>
-			<h1 class="center"> Proveedores Contratados </h1>
+			<h1 class="center"> {{!service ? 'Proveedores Retirados' : 'Proveedores Contratados'}}  </h1>
 			<table>
 				<tr>
 					<th>ID</th>
 					<th>NOMBRE DE CONTACTO</th>
 					<th>RAZÓN SOCIAL</th>
+					<th ng-show="!service">MOTIVO DE RETIRO</th>
+					<th ng-show="!service">FECHA DE RETIRO</th>
 				</tr>
 				<tr ng-repeat="field in dataProvider">
 					<td>{{ field.id }}</td>
 					<td>{{ field.nombre_contacto }}</td>
 					<td>{{ field.razon_social }}</td>
+					<td ng-show="!service">{{ field.motivo }}</td>
+					<td ng-show="!service">{{ field.fecha_retiro }}</td>
 					<td><button ng-click="updateRow(field.id)">Update</button></td>
 					<td><button ng-click="deleteRow(field.id)">Delete</button></td>
 				</tr>
@@ -24,7 +28,7 @@
 			<div id="pager">
 				<ul>
 					<li ng-repeat="nPage in pagerProvider">
-						<a href="<?php echo constant('URL');?>gettest?page={{nPage}}">Page {{nPage}}</a>
+						<a href="<?php echo constant('URL');?>provider?page={{nPage}}&service={{service}}">Page {{nPage}}</a>
 					</li>
 				</ul>
 			</div>

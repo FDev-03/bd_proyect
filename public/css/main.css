@@ -34,6 +34,11 @@ body {
 	padding: 10px;
 }
 
+#multiple li a {
+	color: black !important;
+	padding: 5px !important;
+}
+
 .center {
 	text-align: center;
 }
@@ -45,7 +50,7 @@ table {
 }
 
 th, td {
-  text-align: center;
+  text-align: center !important;
   padding: 8px !important;
 }
 
