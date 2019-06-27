@@ -111,7 +111,7 @@ app.controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, $http, 
   };
 });
 
-app.controller('Provider', function($scope, $http, $location, $window, $httpParamSerializerJQLike, ConfigVariables){
+app.controller('Provider', function($scope, $http, $location, $window, $httpParamSerializerJQLike, $uibModal, ConfigVariables){
 
 	var absurl = $location.absUrl();
 	var url = new URL(absurl);
@@ -165,4 +165,57 @@ app.controller('Provider', function($scope, $http, $location, $window, $httpPara
 		});
 	}
 
+	$scope.removeProvider = function(row_id){
+		var modalInstance = $uibModal.open({
+			animation: true,
+			ariaLabelledBy: 'modal-title',
+			ariaDescribedBy: 'modal-body',
+			templateUrl: ConfigVariables.URL + 'view/Provider/remove_providers.html',
+			controller: 'ModalRemoveProvider',
+			resolve: {
+			data: function () {
+			  return row_id; 
+			}
+		}
+		});
+	}	
+
+});
+
+
+app.controller('ModalRemoveProvider', function ($scope, $uibModalInstance, $http,
+	$httpParamSerializerJQLike, ConfigVariables, data) {
+
+  $scope.Update = function () {
+
+  	if ($scope.reazon == null) {
+  		alert("Error en la validación");
+  		return;
+  	}
+
+  	var form_fields = {
+  		'id' : { 'value': data },
+  		'reazon': { 'value': $scope.reazon }
+  	}
+		$http({
+			url: ConfigVariables.URL + 'provider/updateFields',
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/x-www-form-urlencoded'
+			},
+			data: $httpParamSerializerJQLike({'form_fields': form_fields})
+		}).then(function (response) {
+			if (response.data.status != false) {
+				$uibModalInstance.close();
+				alert("Proveedor retirado");
+				location.reload();
+			}else{
+				alert("Error en la validación");
+			}
+		});
+  };
+
+  $scope.Cancel = function () {
+    $uibModalInstance.close();
+  };
 });

@@ -44,4 +44,21 @@ class ProviderController extends ControllerBase{
 		echo json_encode($response);
 		return;
 	}
+
+	function updateFields(){
+		$response = array(
+			'status' => FALSE,
+			'message' =>'Bad Request!'
+		);
+
+		if (isset($_POST['form_fields'])) {
+			$result = $this->model->UpdateRow($_POST['form_fields']);
+			if ($result != FALSE) {
+				$response['status'] = TRUE;
+				$response['message'] = 'Completed.';
+			}
+		}
+		echo json_encode($response);
+		return;	
+	}
 }

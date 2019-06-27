@@ -83,10 +83,10 @@ class ProviderModel extends ModelBase{
 				'id' => $row_id
 			));
 
-    		if ($service == TRUE)
-    			$condition = " WHERE motivo IS NULL AND fecha_retiro IS NULL ";
-    		else
-    			$condition = " WHERE motivo IS NOT NULL AND fecha_retiro IS NOT NULL ";
+  		if ($service == TRUE)
+  			$condition = " WHERE motivo IS NULL AND fecha_retiro IS NULL ";
+  		else
+  			$condition = " WHERE motivo IS NOT NULL AND fecha_retiro IS NOT NULL ";
 
 			$nRows = $this->countRows($connection, $this->table_name, $condition);
 			$response['status'] = 1;
@@ -98,4 +98,20 @@ class ProviderModel extends ModelBase{
 			$response['status'] = 0;
 		}
 	}
+
+	function UpdateRow($params){
+		try{
+			$curremt_date = date("Y-m-d");
+			$sql_query = "UPDATE proveedor SET motivo = :reazon, fecha_retiro = :currentdate WHERE id = :id";
+			$query = $this->db->connect()->prepare($sql_query);
+			$query->execute(array(
+				'id' => $params['id']['value'],
+				'reazon' => $params['reazon']['value'],
+				'currentdate' => $curremt_date
+			));
+			return TRUE;
+		}catch(PDOException $e){
+			return FALSE;
+		}
+	}	
 }

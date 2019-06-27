@@ -21,8 +21,7 @@
 					<td>{{ field.razon_social }}</td>
 					<td ng-show="!service">{{ field.motivo }}</td>
 					<td ng-show="!service">{{ field.fecha_retiro }}</td>
-					<td><button ng-click="updateRow(field.id)">Update</button></td>
-					<td><button ng-click="deleteRow(field.id)">Delete</button></td>
+					<td><button ng-show="service" ng-click="removeProvider(field.id)">Retirar Proveedor</button></td>
 				</tr>
 			</table>
 			<div id="pager">
