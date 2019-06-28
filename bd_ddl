@@ -29,7 +29,7 @@ create table proveedor(
 	id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	nombre_contacto varchar(40) NOT NULL,
 	razon_social varchar(40) NOT NULL,
-	motivo varchar(100),
+	motivo varchar(300),
 	fecha_retiro DATE
 );
 

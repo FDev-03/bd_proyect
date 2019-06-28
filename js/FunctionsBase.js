@@ -8,7 +8,7 @@ app.factory('ConfigVariables', function($http) {
 });
 
 app.controller('GetCtrl', function($scope, $http, $httpParamSerializerJQLike, $uibModal, $location, $window, ConfigVariables) {
-	
+
 	var absurl = $location.absUrl();
 	var url = new URL(absurl);
 	$scope.npage = url.searchParams.get("page");
@@ -43,7 +43,7 @@ app.controller('GetCtrl', function($scope, $http, $httpParamSerializerJQLike, $u
       controller: 'ModalInstanceCtrl',
       resolve: {
         data: function () {
-          return row_id; 
+          return row_id;
         }
       }
     });
@@ -67,7 +67,7 @@ app.controller('GetCtrl', function($scope, $http, $httpParamSerializerJQLike, $u
 
 
 app.controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, $http, $httpParamSerializerJQLike, data) {
-  
+
 	$http({
 		url: 'gettest/getSpecific',
 		method: 'POST',
@@ -171,19 +171,34 @@ app.controller('Provider', function($scope, $http, $location, $window, $httpPara
 			ariaLabelledBy: 'modal-title',
 			ariaDescribedBy: 'modal-body',
 			templateUrl: ConfigVariables.URL + 'view/Provider/remove_providers.html',
-			controller: 'ModalRemoveProvider',
+			controller: 'ModalProviders',
 			resolve: {
 			data: function () {
-			  return row_id; 
+			  return row_id;
 			}
 		}
 		});
-	}	
+	}
+
+	$scope.addProvider = function () {
+		var modalInstance = $uibModal.open({
+			animation: true,
+			ariaLabelledBy: 'modal-title',
+			ariaDescribedBy: 'modal-body',
+			templateUrl: ConfigVariables.URL + 'view/Provider/add_providers.html',
+			controller: 'ModalProviders',
+			resolve: {
+				data: function () {
+					return 'test';
+				}
+			}
+		});
+	}
 
 });
 
 
-app.controller('ModalRemoveProvider', function ($scope, $uibModalInstance, $http,
+app.controller('ModalProviders', function ($scope, $uibModalInstance, $http,
 	$httpParamSerializerJQLike, ConfigVariables, data) {
 
   $scope.Update = function () {
@@ -213,7 +228,36 @@ app.controller('ModalRemoveProvider', function ($scope, $uibModalInstance, $http
 				alert("Error en la validación");
 			}
 		});
-  };
+	};
+
+	$scope.Add = function () {
+		console.log("im HEre!");
+/* 		if ($scope.reazon == null) {
+			alert("Error en la validación");
+			return;
+		}
+
+		var form_fields = {
+			'id': { 'value': data },
+			'reazon': { 'value': $scope.reazon }
+		}
+		$http({
+			url: ConfigVariables.URL + 'provider/updateFields',
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/x-www-form-urlencoded'
+			},
+			data: $httpParamSerializerJQLike({ 'form_fields': form_fields })
+		}).then(function (response) {
+			if (response.data.status != false) {
+				$uibModalInstance.close();
+				alert("Proveedor retirado");
+				location.reload();
+			} else {
+				alert("Error en la validación");
+			}
+		}); */
+	};
 
   $scope.Cancel = function () {
     $uibModalInstance.close();
