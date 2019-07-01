@@ -3,27 +3,22 @@
 /**
  * 
  */
-class ProviderController extends ControllerBase{
+class RawMaterialController extends ControllerBase{
 	
 	function __construct(){
 		parent::__construct();
 	}
 
 	function render() {
-		$this->viewBase->render('Provider/index');
+		$this->viewBase->render('RawMaterial/index');
 	}
 
-	function getProviders() {
-		if (isset($_GET['service'])) {
-			$type = ($_GET['service'] === 'true') ? TRUE: FALSE;
-		}else{
-			$type = FALSE;
-		}
-		$data = $this->model->getProviders($type);
+	function getRawMaterials() {
+		$data = $this->model->getMaterials();
 		echo json_encode($data);
 	}
 
-	function addProvider(){
+/*	function addProvider(){
 		$response = array(
 			'status' => FALSE,
 			'message' =>'Bad Request!'
@@ -77,5 +72,5 @@ class ProviderController extends ControllerBase{
 		}
 		echo json_encode($response);
 		return;	
-	}
+	}*/
 }

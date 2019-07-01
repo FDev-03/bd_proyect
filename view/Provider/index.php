@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<?php require "view/header.php"; ?>
-		<script src="<?php echo constant('URL'); ?>js/FunctionsBase.js"></script>
+		<script src="<?php echo constant('URL'); ?>js/Providers.js"></script>
 	</head>
 	<body ng-app="AppBase" ng-controller="Provider">
 		<div>
@@ -14,11 +14,16 @@
 				</ul>
 			</div>
 
-			<table id="{{ !service ? 'providers_retired' : 'providers_hired'}}">
+			<div style="font-family:Times New Roman" ng-show="not_found_data" class="center" id="NotFoundMessage">
+				<h2>No se encontraron proveedores.</h2>
+			</div>
+
+			<table ng-show="!not_found_data" id="{{ !service ? 'providers_retired' : 'providers_hired'}}">
 				<tr>
 					<th>ID</th>
 					<th>NOMBRE DE CONTACTO</th>
 					<th>RAZÓN SOCIAL</th>
+					<th>NÚMERO TELEFÓNICO</th>
 					<th ng-show="!service">MOTIVO DE RETIRO</th>
 					<th ng-show="!service">FECHA DE RETIRO</th>
 				</tr>
@@ -26,6 +31,7 @@
 					<td>{{ field.id }}</td>
 					<td>{{ field.nombre_contacto }}</td>
 					<td>{{ field.razon_social }}</td>
+					<td>{{ field.numero }}</td>
 					<td ng-show="!service">{{ field.motivo }}</td>
 					<td ng-show="!service">{{ field.fecha_retiro }}</td>
 					<td><button class="Button" ng-show="service" ng-click="removeProvider(field.id)">Retirar Proveedor</button></td>

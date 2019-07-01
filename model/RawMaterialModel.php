@@ -3,28 +3,33 @@
 /**
  * 
  */
-class ProviderModel extends ModelBase{
+class RawMaterialModel extends ModelBase{
 	
+	public $nombre;
+
 	public $id;
 
-	public $nombre_contacto;
+	public $precio;
+
+	public $unidad;
+
+	public $cantidad;
+
+	public $fecha;
 
 	public $razon_social;
 
-	public $motivo;
-
-	public $fecha_retiro;
-
-	public $numero;
-
-	private $table_provider = 'proveedor';
-	private $table_provider_phone = 'telefono_proveedor';
+	private $table_categoria = 'categoria';
+	private $table_materia_prima = 'materia_prima';
+	private $table_inventario_m = 'inventario_m';
+	private $table_mp_proveedor = 'mp_proveedor';
+	private $table_proveedor = 'proveedor';
 
 	function __construct(){
 		parent::__construct();
 	}
 
-	function getProviders($service){
+	function getMaterials(){
 
 		try{
 			$response = array(
@@ -33,12 +38,7 @@ class ProviderModel extends ModelBase{
 			);
 			$connection = $this->db->connect();
 			
-    		if ($service == TRUE)
-    			$condition = " WHERE motivo IS NULL AND fecha_retiro IS NULL ";
-    		else
-    			$condition = " WHERE motivo IS NOT NULL AND fecha_retiro IS NOT NULL ";
-
-			$nRows = $this->countRows($connection, $this->table_provider, $condition);
+			$nRows = $this->countRows($connection, $this->table_materia_prima);
 
 			if ($nRows < 1){
 		        $response['status'] = 0;
@@ -54,45 +54,45 @@ class ProviderModel extends ModelBase{
 			}
 
 			$start_point = ($npage * $this->ndata) - $this->ndata;
-
-    		if ($service == TRUE)
-    			$condition = " AND prov.motivo IS NULL AND prov.fecha_retiro IS NULL ";
-    		else
-    			$condition = " AND prov.motivo IS NOT NULL AND prov.fecha_retiro IS NOT NULL ";
 			
-			$query = "SELECT prov.*, tel_prov.numero  FROM " . $this->table_provider . " AS prov";
-			$query .= " JOIN " . $this->table_provider_phone . " AS tel_prov";
-			$query .= " ON tel_prov.id_proveedor = prov.id";
-			$query .= "$condition LIMIT $start_point, $this->ndata";
+			$query = "SELECT matp.*, cat.nombre, inv.cantidad, inv.fecha, prov.razon_social FROM " . $this->table_materia_prima . " AS matp";
+			$query .= " JOIN " . $this->table_categoria . " AS cat";
+			$query .= " ON matp.id_categoria = cat.id_categoria";
+			$query .= " JOIN " . $this->table_inventario_m . " AS inv";
+			$query .= " ON inv.id_materia_prima = matp.id";
+			$query .= " JOIN " . $this->table_mp_proveedor . " AS mp_prov";
+			$query .= " ON mp_prov.id_materiap = matp.id";
+			$query .= " JOIN " . $this->table_proveedor . " AS prov";
+			$query .= " ON mp_prov.id_proveedor = prov.id";
+			$query .= " LIMIT $start_point, $this->ndata";
 
 			$result_data = $connection->query($query); 
 
-		    if($result_data->rowCount() > 0) { 
-		        while($row = $result_data->fetch()) {
-					$provider = new ProviderModel();
-					$provider->id = $row['id'];
-					$provider->nombre_contacto = $row['nombre_contacto'];
-					$provider->razon_social = $row['razon_social'];
-					$provider->numero = $row['numero'];
-					if ($service == FALSE){
-						$provider->motivo = $row['motivo'];
-						$provider->fecha_retiro = $row['fecha_retiro'];
-					}
-					$response['data'][] = $provider;
-		        }
-		        $response['available'] = range(1, $nAvailable);
-		    } else { 
-		        $response['status'] = 0;
-		        $response['available'] = 0;
-		        $response['message'] = 'No records matching are found';
-		    } 
+	    if($result_data->rowCount() > 0) { 
+        while($row = $result_data->fetch()) {
+					$material = new RawMaterialModel();
+					$material->id = $row['id'];
+					$material->nombre = $row['nombre'];
+					$material->precio = $row['precio'];
+					$material->unidad = $row['unidad'];
+					$material->cantidad = $row['cantidad'];
+					$material->fecha = $row['fecha'];
+					$material->razon_social = $row['razon_social'];
+					$response['data'][] = $material;
+        }
+	      $response['available'] = range(1, $nAvailable);
+	    } else { 
+        $response['status'] = 0;
+        $response['available'] = 0;
+        $response['message'] = 'No records matching are found';
+	    } 
 			return $response;
 		}catch(PDOException $e){
 			return $e;
 		}
 	}
 
-	function deleteRow($row_id, $service){
+/*	function deleteRow($row_id, $service){
 		try{
 			$sql_query = "DELETE FROM " . $this->table_provider . " WHERE id = :id";
 			$connection = $this->db->connect();
@@ -158,5 +158,5 @@ class ProviderModel extends ModelBase{
 		}catch(PDOException $e){
 			return false;
 		}
-	}	
+	}	*/
 }

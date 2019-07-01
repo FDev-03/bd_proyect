@@ -31,6 +31,7 @@
                         <li><a href="<?php echo constant('URL'); ?>provider?service=false">Retirados</a></li>
                     </ul>
                 </li>
+                <li><a href="<?php echo constant('URL'); ?>rawmaterial">Materia Prima</a></li>
 			</ul>
 		</div>
 

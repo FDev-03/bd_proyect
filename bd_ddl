@@ -33,69 +33,67 @@ create table proveedor(
 	fecha_retiro DATE
 );
 
-create table telefono(
+create table telefono_proveedor(
 	numero int NOT NULL,
 	id_proveedor int NOT NULL,
 	PRIMARY KEY (numero, id_proveedor),
 	FOREIGN KEY (id_proveedor) REFERENCES proveedor(id)
 );
 
+create table categoria(
+	id_categoria int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	nombre varchar(40) NOT NULL
+);
+
+create table materia_prima(
+	id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	precio int NOT NULL,
+	unidad varchar(20) NOT NULL,
+	id_categoria int NOT NULL,
+	FOREIGN KEY (id_categoria) REFERENCES categoria(id_categoria)
+);
+
+create table mp_proveedor(
+	id_materiap int NOT NULL,
+	id_proveedor int NOT NULL,
+	PRIMARY KEY (id_materiap,id_proveedor),
+	FOREIGN KEY (id_materiap) REFERENCES materia_prima(id),
+	FOREIGN KEY (id_proveedor) REFERENCES proveedor(id)
+);
+
+create table inventario_m(
+	id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	cantidad int NOT NULL,
+	fecha DATE,
+	id_materia_prima int NOT NULL,
+	FOREIGN KEY (id_materia_prima) REFERENCES materia_prima(id)
+);
+
+INSERT INTO categoria (nombre) VALUES
+('tela'),
+('botones');
+
+INSERT INTO materia_prima (precio, unidad, id_categoria) VALUES
+(50000,'kilogramos', 1),
+(10000,'unidades', 2),
+(50000,'metros', 1);
+
+INSERT INTO inventario_m (cantidad,fecha,id_materia_prima) VALUES
+(10,'2008-7-04', 1),
+(5,'2008-7-04', 2),
+(10,'2008-7-04', 3);
+
 INSERT INTO proveedor (nombre_contacto, razon_social) VALUES
 ('Fer','FDev'),
-('Juan','JDev'),
-('Fer','FDev'),
-('Juan','JDev'),
-('Fer','FDev'),
-('Juan','JDev'),
-('Fer','FDev'),
-('Juan','JDev'),
-('Fer','FDev'),
-('Juan','JDev'),
-('Fer','FDev'),
-('Juan','JDev'),
-('Fer','FDev'),
-('Juan','JDev'),
-('Fer','FDev'),
-('Juan','JDev'),
-('Fer','FDev'),
-('Juan','JDev'),
-('Fer','FDev'),
-('Juan','JDev'),
-('Fer','FDev'),
-('Juan','JDev'),
-('Fer','FDev'),
-('Juan','JDev'),
-('Fer','FDev'),
+('Cam','CDev'),
 ('Juan','JDev');
 
-INSERT INTO proveedor (nombre_contacto, razon_social, motivo, fecha_retiro) VALUES
-('Fer2','FDev2','porquesi', '2008-7-04'),
-('Juan2','JDev2','porque quic', '2008-7-22'),
-('Fer2','FDev2','porquesi', '2008-7-04'),
-('Juan2','JDev2','porque quic', '2008-7-22'),
-('Fer2','FDev2','porquesi', '2008-7-04'),
-('Juan2','JDev2','porque quic', '2008-7-22'),
-('Fer2','FDev2','porquesi', '2008-7-04'),
-('Juan2','JDev2','porque quic', '2008-7-22'),
-('Fer2','FDev2','porquesi', '2008-7-04'),
-('Juan2','JDev2','porque quic', '2008-7-22'),
-('Fer2','FDev2','porquesi', '2008-7-04'),
-('Juan2','JDev2','porque quic', '2008-7-22'),
-('Fer2','FDev2','porquesi', '2008-7-04'),
-('Juan2','JDev2','porque quic', '2008-7-22'),
-('Fer2','FDev2','porquesi', '2008-7-04'),
-('Juan2','JDev2','porque quic', '2008-7-22'),
-('Fer2','FDev2','porquesi', '2008-7-04'),
-('Juan2','JDev2','porque quic', '2008-7-22'),
-('Fer2','FDev2','porquesi', '2008-7-04'),
-('Juan2','JDev2','porque quic', '2008-7-22'),
-('Fer2','FDev2','porquesi', '2008-7-04'),
-('Juan2','JDev2','porque quic', '2008-7-22'),
-('Fer2','FDev2','porquesi', '2008-7-04'),
-('Juan2','JDev2','porque quic', '2008-7-22'),
-('Fer2','FDev2','porquesi', '2008-7-04'),
-('Juan2','JDev2','porque quic', '2008-7-22'),
-('Fer2','FDev2','porquesi', '2008-7-04'),
-('Juan2','JDev2','porque quic', '2008-7-22'),
-('Fer2','FDev2','porquesi', '2008-7-04'),
-('Juan2','JDev2','porque quic', '2008-7-22');
+INSERT INTO telefono_proveedor VALUES
+(123456,1),
+(223456,2),
+(323456,3);
+
+INSERT INTO mp_proveedor VALUES
+(1,1),
+(2,2),
+(3,3);
