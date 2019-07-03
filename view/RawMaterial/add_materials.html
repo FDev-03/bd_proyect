@@ -1,0 +1,42 @@
+<div class="modal-header">
+  <h3 class="modal-title center" id="modal-title">Agregar Materiales</h3>
+</div>
+<div class="modal-body" id="modal-body">
+  <div class="center">
+    <ul class="form-group-list">
+      <li>
+        <label for="material_category">Categoría</label>
+        <input type="text" placeholder="Categoría del material" name="material_category" 
+          ng-model="material_category" ng-value="material_category" required>
+      </li>
+      <li>
+        <label for="material_price">Precio</label>
+        <input type="number" placeholder="Razón Social" name="Precio del material"
+          ng-model="material_price" ng-value="material_price" required>
+      </li>
+      <li>
+        <label for="unit_measurement">Unidad de medida</label>
+        <select ng-model="unit_measurement" ng-options="item as item.label for item in unit_options track by item.id" required>
+          <option value="">---Seleccione---</option>
+        </select>
+      </li>      
+      <li>
+        <label for="amount_material">Cantidad</label>
+        <input type="number" placeholder="Número de materiales" name="amount_material" 
+          ng-model="amount_material" ng-value="amount_material" required>
+      </li>
+      <li>
+        <label for="provider">Proveedor</label>
+        <select ng-model="provider" ng-options="item as item.nombre_contacto for item in providers_options track by item.id" required>
+          <option value="">---Seleccione---</option>
+        </select>
+      </li>   
+    </ul>
+  </div>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-primary" type="button"
+    ng-click="Add()">Agregar</button>
+  <button class="btn btn-warning" type="button"
+    ng-click="Cancel()">Cancel</button>
+</div>

@@ -23,6 +23,10 @@ class ProviderController extends ControllerBase{
 		echo json_encode($data);
 	}
 
+	function getAllProviders(){
+		echo json_encode($this->model->getAllProviders());
+	}
+
 	function addProvider(){
 		$response = array(
 			'status' => FALSE,

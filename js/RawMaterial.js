@@ -34,50 +34,16 @@ app.controller('RawMaterial', function($scope, $http, $location, $window, $httpP
 		}
 	});
 
-	$scope.deleteRow = function(row_id){
-		$http({
-			url: ConfigVariables.URL + 'provider/deleteProviders',
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/x-www-form-urlencoded'
-			},
-			data: $httpParamSerializerJQLike({'form_input': {'value':row_id}})
-		}).then(function (response) {
-			if ($scope.npage <= response.data.available) {
-				location.reload();
-			}else if($scope.npage == 1) {
-				$window.location.href = ConfigVariables.URL + 'provider?npage=1' + route_parameters;
-			}else{
-				$window.location.href = ConfigVariables.URL + 'provider?npage=' + ($scope.npage-1) + route_parameters;
-			}
-		});
-	}
-
-	$scope.removeProvider = function(row_id){
+	$scope.addMaterial = function () {
 		var modalInstance = $uibModal.open({
 			animation: true,
 			ariaLabelledBy: 'modal-title',
 			ariaDescribedBy: 'modal-body',
-			templateUrl: ConfigVariables.URL + 'view/Provider/remove_providers.html',
-			controller: 'ModalProviders',
-			resolve: {
-			data: function () {
-			  return row_id;
-			}
-		}
-		});
-	}
-
-	$scope.addProvider = function () {
-		var modalInstance = $uibModal.open({
-			animation: true,
-			ariaLabelledBy: 'modal-title',
-			ariaDescribedBy: 'modal-body',
-			templateUrl: ConfigVariables.URL + 'view/Provider/add_providers.html',
-			controller: 'ModalProviders',
+			templateUrl: ConfigVariables.URL + 'view/RawMaterial/add_materials.html',
+			controller: 'ModalMaterials',
 			resolve: {
 				data: function () {
-					return 'add_providers';
+					return 'add_materials';
 				}
 			}
 		});
@@ -86,44 +52,47 @@ app.controller('RawMaterial', function($scope, $http, $location, $window, $httpP
 });
 
 
-app.controller('ModalProviders', function ($scope, $uibModalInstance, $http,
+app.controller('ModalMaterials', function ($scope, $uibModalInstance, $http,
 	$httpParamSerializerJQLike, ConfigVariables, data) {
 
-  $scope.Update = function () {
+	// Traer las categorías posibles.
+	// (Crear una vista para 'getAllProviders');	
 
-  	if ($scope.reazon == null) {
-  		alert("Debe llenar el campo 'Razón'.");
-  		return;
-  	}
+	$http({
+		url: ConfigVariables.URL + 'provider/getAllProviders',
+		method: 'GET',
+		headers: {
+			'Content-Type': 'application/json'
+		}
+	}).then(function (response) {
+		if (response.data == false) {
+			$window.location.href = ConfigVariables.URL + 'main/error';
+		}else if(response.data.status == 1){
+			$scope.providers_options = response.data.data
+		}
+	});
 
-  	var form_fields = {
-  		'id' : { 'value': data },
-  		'reazon': { 'value': $scope.reazon }
-  	}
-		$http({
-			url: ConfigVariables.URL + 'provider/updateFields',
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/x-www-form-urlencoded'
-			},
-			data: $httpParamSerializerJQLike({'form_fields': form_fields})
-		}).then(function (response) {
-			if (response.data.status != false) {
-				$uibModalInstance.close();
-				alert("Proveedor retirado");
-				location.reload();
-			}else{
-				alert("Error en la validación");
-			}
-		});
-	};
+	$scope.unit_options = [
+		{
+			id: 'kg',
+			label: 'Kilogramos'
+		}, {
+			id: 'mm',
+			label: 'Metros'
+		}, {
+			id: 'un',
+			label: 'Unidades'
+		}
+	];	
 
 	$scope.Add = function () {
 
 		var validation = {
-			'Nombre' : $scope.contact_name,
-			'Razón Social' : $scope.social_name,
-			'Número' : $scope.telephone_number
+			'Nombre' : $scope.material_name,
+			'Precio' : $scope.material_price,
+			'Unidad de medida' : $scope.unit_measurement,
+			'Cantidad' : $scope.amount_material,
+			'Proveedor' : $scope.provider
 		};
 		var empty_fields = [];
 		$.each(validation, function(key, value) {
@@ -142,13 +111,15 @@ app.controller('ModalProviders', function ($scope, $uibModalInstance, $http,
 		}
 
 		var form_fields = {
-			'name': { 'value': $scope.contact_name },
-			'social_name': { 'value': $scope.social_name },
-			'number': { 'value': $scope.telephone_number }
+			'material_name': { 'value': $scope.material_name },
+			'material_price': { 'value': $scope.material_price },
+			'unit_measurement': { 'value': $scope.unit_measurement },
+			'amount_material': { 'value': $scope.amount_material },
+			'provider': { 'value': $scope.provider }
 		}
 
 		$http({
-			url: ConfigVariables.URL + 'provider/addProvider',
+			url: ConfigVariables.URL + 'rawmaterial/addMaterial',
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/x-www-form-urlencoded'
@@ -160,7 +131,7 @@ app.controller('ModalProviders', function ($scope, $uibModalInstance, $http,
 				alert("Proveedor Agregado");
 				location.reload();
 			} else {
-				alert("Error la elimincación.");
+				alert("Error en la adición.");
 			}
 		}); 
 	};

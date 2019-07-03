@@ -170,7 +170,7 @@ app.controller('ModalProviders', function ($scope, $uibModalInstance, $http,
 				alert("Proveedor Agregado");
 				location.reload();
 			} else {
-				alert("Error la elimincación.");
+				alert("Error en la adición.");
 			}
 		}); 
 	};

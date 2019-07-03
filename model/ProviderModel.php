@@ -133,6 +133,36 @@ class ProviderModel extends ModelBase{
 		}
 	}
 
+	function getAllProviders(){
+		try{
+
+			$connection = $this->db->connect();
+			$query = "SELECT id, nombre_contacto FROM " . $this->table_provider;
+			$query .= " WHERE motivo IS NULL AND fecha_retiro IS NULL";
+
+			$result_data = $connection->query($query); 
+			$response = array(
+				'status' => 1,
+				'message' => 'success'
+			);
+
+	    if($result_data->rowCount() > 0) { 
+	      while($row = $result_data->fetch()) {
+					$provider = new ProviderModel();
+					$provider->id = $row['id'];
+					$provider->nombre_contacto = $row['nombre_contacto'];
+					$response['data'][] = $provider;
+	      }
+	    } else { 
+	      $response['status'] = 0;
+	      $response['available'] = 0;
+	      $response['message'] = 'No records matching are found';
+	    }
+	    return $response;
+		}catch(PDOException $e){
+			return FALSE;
+		}
+	}
 
 	function addProvider($params){
 		try{

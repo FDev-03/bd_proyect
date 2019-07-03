@@ -92,57 +92,16 @@ class RawMaterialModel extends ModelBase{
 		}
 	}
 
-/*	function deleteRow($row_id, $service){
+	function addMaterial($params){
 		try{
-			$sql_query = "DELETE FROM " . $this->table_provider . " WHERE id = :id";
-			$connection = $this->db->connect();
-			$query = $connection->prepare($sql_query);
-			$query->execute(array(
-				'id' => $row_id
-			));
-
-  		if ($service == TRUE)
-  			$condition = " WHERE motivo IS NULL AND fecha_retiro IS NULL ";
-  		else
-  			$condition = " WHERE motivo IS NOT NULL AND fecha_retiro IS NOT NULL ";
-
-			$nRows = $this->countRows($connection, $this->table_provider, $condition);
-			$response['status'] = 1;
-			$response['data'] = array(
-				'nAvailable' => ceil($nRows/$this->ndata)
-			);
-			return $response;
-		}catch(PDOException $e){
-			$response['status'] = 0;
-		}
-	}
-
-	function UpdateRow($params){
-		try{
-			$curremt_date = date("Y-m-d");
-			$sql_query = "UPDATE proveedor SET motivo = :reazon, fecha_retiro = :currentdate WHERE id = :id";
-			$query = $this->db->connect()->prepare($sql_query);
-			$query->execute(array(
-				'id' => $params['id']['value'],
-				'reazon' => $params['reazon']['value'],
-				'currentdate' => $curremt_date
-			));
-			return TRUE;
-		}catch(PDOException $e){
-			return FALSE;
-		}
-	}
-
-
-	function addProvider($params){
-		try{
-			// Insert into proveedor.
-			$sql_query = 'INSERT INTO proveedor (nombre_contacto,razon_social) VALUES (:name,:social_name)';
+			// Insert into materia_prima.
+			$sql_query = 'INSERT INTO materia_prima (precio,unidad,id_categoria) VALUES (:precio,:unidad,:id_categoria)';
 			$connect = $this->db->connect();
 			$query = $connect->prepare($sql_query);
 			$query->execute(array(
-				'name' => $params['name']['value'],
-				'social_name' => $params['social_name']['value']
+				'precio' => $params['name']['value'],
+				'unidad' => $params['name']['value'],
+				'id_categoria' => $params['social_name']['value']
 			));
 
 			$id = $connect->lastInsertId();
@@ -158,5 +117,5 @@ class RawMaterialModel extends ModelBase{
 		}catch(PDOException $e){
 			return false;
 		}
-	}	*/
+	}	
 }

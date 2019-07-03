@@ -8,11 +8,11 @@
 		<div>
 			<h1 class="center"> MATERIA PRIMA </h1>
 
-<!-- 			<div id="actions" ng-show="service">
+			<div ng-show="!not_found_data" id="actions">
 				<ul class="action-links">
-					<li><button ng-click="addProvider()" class="Button">Agregar Proveedor</button></li>
+					<li><button ng-click="addMaterial()" class="Button">Agregar Materia Prima</button></li>
 				</ul>
-			</div> -->
+			</div>
 
 			<div style="font-family:Times New Roman" ng-show="not_found_data" class="center" id="NotFoundMessage">
 				<h2>No se encontraron materiales.</h2>
@@ -21,7 +21,7 @@
 			<table ng-show="!not_found_data" id="{{ !service ? 'providers_retired' : 'providers_hired'}}">
 				<tr>
 					<th>ID</th>
-					<th>NOMBRE</th>
+					<th>CATEGORÍA</th>
 					<th>PRECIO</th>
 					<th>UNIDAD</th>
 					<th>CANTIDAD</th>
