@@ -119,13 +119,13 @@ class ProviderModel extends ModelBase{
 
 	function UpdateRow($params){
 		try{
-			$curremt_date = date("Y-m-d");
+			$current_date = date("Y-n-d");
 			$sql_query = "UPDATE proveedor SET motivo = :reazon, fecha_retiro = :currentdate WHERE id = :id";
 			$query = $this->db->connect()->prepare($sql_query);
 			$query->execute(array(
 				'id' => $params['id']['value'],
 				'reazon' => $params['reazon']['value'],
-				'currentdate' => $curremt_date
+				'currentdate' => $current_date
 			));
 			return TRUE;
 		}catch(PDOException $e){
@@ -137,8 +137,7 @@ class ProviderModel extends ModelBase{
 		try{
 
 			$connection = $this->db->connect();
-			$query = "SELECT id, nombre_contacto FROM " . $this->table_provider;
-			$query .= " WHERE motivo IS NULL AND fecha_retiro IS NULL";
+			$query = "SELECT * FROM active_providers";
 
 			$result_data = $connection->query($query); 
 			$response = array(

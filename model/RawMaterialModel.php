@@ -41,10 +41,10 @@ class RawMaterialModel extends ModelBase{
 			$nRows = $this->countRows($connection, $this->table_materia_prima);
 
 			if ($nRows < 1){
-		        $response['status'] = 0;
-		        $response['available'] = 0;
-		        $response['message'] = 'No records matching are found';
-		        return $response;
+	      $response['status'] = 0;
+	      $response['available'] = 0;
+	      $response['message'] = 'No records matching are found';
+	      return $response;
 			}
 			$nAvailable = ceil($nRows/$this->ndata);
 			$npage = $_GET['npage'];
@@ -92,26 +92,62 @@ class RawMaterialModel extends ModelBase{
 		}
 	}
 
+	function getCategories(){
+		try{
+
+			$connection = $this->db->connect();
+			$query = "SELECT id_categoria, nombre FROM " . $this->table_categoria;
+
+			$result_data = $connection->query($query); 
+			$response = array(
+				'status' => 1,
+				'message' => 'success'
+			);
+
+	    if($result_data->rowCount() > 0) { 
+	      while($row = $result_data->fetch()) {
+	      	$category = array(
+	      		'id' => $row['id_categoria'],
+	      		'category_name' => $row['nombre']
+	      	);
+					$response['data'][] = $category;
+	      }
+	    } else { 
+	      $response['status'] = 0;
+	      $response['available'] = 0;
+	      $response['message'] = 'No records matching are found';
+	    }
+	    return $response;
+		}catch(PDOException $e){
+			return FALSE;
+		}
+	}
+
 	function addMaterial($params){
 		try{
 			// Insert into materia_prima.
+			$current_date = strval(date("Y-n-d"));
 			$sql_query = 'INSERT INTO materia_prima (precio,unidad,id_categoria) VALUES (:precio,:unidad,:id_categoria)';
 			$connect = $this->db->connect();
 			$query = $connect->prepare($sql_query);
 			$query->execute(array(
-				'precio' => $params['name']['value'],
-				'unidad' => $params['name']['value'],
-				'id_categoria' => $params['social_name']['value']
+				'precio' => $params['material_price']['value'],
+				'unidad' => $params['unit_measurement']['value'],
+				'id_categoria' => $params['material_category']['value']
 			));
 
+			// Call 'add_to_inventory_m' method.
 			$id = $connect->lastInsertId();
-			// Insert into telefono_proveedor.
-			$sql_query = 'INSERT INTO telefono_proveedor (numero,id_proveedor) VALUES (:ntel,:provider_id)';
+			$amount = $params['amount_material']['value'];
+			$sql_query = "SELECT add_to_inventory_m($amount, $current_date, $id)";
 			$query = $connect->prepare($sql_query);
-			$query->execute(array(
-				'ntel' => $params['number']['value'],
-				'provider_id' => $id
-			));
+			$query->execute();
+
+			// Call 'add_to_mp_proveedor' method.
+			$provider = $params['provider']['value'];
+			$sql_query = "SELECT add_to_mp_proveedor($id, $provider)";
+			$query = $connect->prepare($sql_query);
+			$query->execute();
 
 			return TRUE;
 		}catch(PDOException $e){

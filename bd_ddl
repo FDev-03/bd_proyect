@@ -69,9 +69,36 @@ create table inventario_m(
 	FOREIGN KEY (id_materia_prima) REFERENCES materia_prima(id)
 );
 
+DELIMITER $$
+CREATE OR REPLACE FUNCTION add_to_inventory_m (cantidad integer, fecha varchar(12), id integer) 
+RETURNS varchar(7)
+DETERMINISTIC
+BEGIN 
+	INSERT INTO inventario_m (cantidad,fecha,id_materia_prima) VALUES
+	(cantidad,fecha,id);
+	RETURN 'SUCCESS';
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE OR REPLACE FUNCTION add_to_mp_proveedor (id_matp integer, id_prov integer) 
+RETURNS varchar(7)
+DETERMINISTIC
+BEGIN 
+	INSERT INTO mp_proveedor VALUES
+	(id_matp,id_prov);
+	RETURN 'SUCCESS';
+END$$
+DELIMITER ;
+
+///Show functions list -> show function status;
+
 INSERT INTO categoria (nombre) VALUES
-('tela'),
-('botones');
+('Boton'),
+('Tela'),
+('Hilo'),
+('Cremallera'),
+('Taches');
 
 INSERT INTO materia_prima (precio, unidad, id_categoria) VALUES
 (50000,'kilogramos', 1),
@@ -97,3 +124,7 @@ INSERT INTO mp_proveedor VALUES
 (1,1),
 (2,2),
 (3,3);
+
+CREATE VIEW active_providers AS
+SELECT id, nombre_contacto FROM proveedor
+WHERE motivo IS NULL AND fecha_retiro IS NULL;

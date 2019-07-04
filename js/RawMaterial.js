@@ -55,9 +55,22 @@ app.controller('RawMaterial', function($scope, $http, $location, $window, $httpP
 app.controller('ModalMaterials', function ($scope, $uibModalInstance, $http,
 	$httpParamSerializerJQLike, ConfigVariables, data) {
 
-	// Traer las categorías posibles.
-	// (Crear una vista para 'getAllProviders');	
+	// possible categories.
+	$http({
+		url: ConfigVariables.URL + 'rawmaterial/getCategories',
+		method: 'GET',
+		headers: {
+			'Content-Type': 'application/json'
+		}
+	}).then(function (response) {
+		if (response.data == false) {
+			$window.location.href = ConfigVariables.URL + 'main/error';
+		}else if(response.data.status == 1){
+			$scope.category_options = response.data.data
+		}
+	});	
 
+	// possible providers.
 	$http({
 		url: ConfigVariables.URL + 'provider/getAllProviders',
 		method: 'GET',
@@ -74,13 +87,13 @@ app.controller('ModalMaterials', function ($scope, $uibModalInstance, $http,
 
 	$scope.unit_options = [
 		{
-			id: 'kg',
+			id: 'kilogramos',
 			label: 'Kilogramos'
 		}, {
-			id: 'mm',
+			id: 'metros',
 			label: 'Metros'
 		}, {
-			id: 'un',
+			id: 'unidades',
 			label: 'Unidades'
 		}
 	];	
@@ -88,7 +101,7 @@ app.controller('ModalMaterials', function ($scope, $uibModalInstance, $http,
 	$scope.Add = function () {
 
 		var validation = {
-			'Nombre' : $scope.material_name,
+			'Categoría' : $scope.material_category,
 			'Precio' : $scope.material_price,
 			'Unidad de medida' : $scope.unit_measurement,
 			'Cantidad' : $scope.amount_material,
@@ -111,11 +124,11 @@ app.controller('ModalMaterials', function ($scope, $uibModalInstance, $http,
 		}
 
 		var form_fields = {
-			'material_name': { 'value': $scope.material_name },
+			'material_category': { 'value': $scope.material_category.id },
 			'material_price': { 'value': $scope.material_price },
-			'unit_measurement': { 'value': $scope.unit_measurement },
+			'unit_measurement': { 'value': $scope.unit_measurement.id },
 			'amount_material': { 'value': $scope.amount_material },
-			'provider': { 'value': $scope.provider }
+			'provider': { 'value': $scope.provider.id }
 		}
 
 		$http({
@@ -128,7 +141,7 @@ app.controller('ModalMaterials', function ($scope, $uibModalInstance, $http,
 		}).then(function (response) {
 			if (response.data.status != false) {
 				$uibModalInstance.close();
-				alert("Proveedor Agregado");
+				alert("Material Agregado");
 				location.reload();
 			} else {
 				alert("Error en la adición.");

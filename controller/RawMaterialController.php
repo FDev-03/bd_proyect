@@ -18,6 +18,11 @@ class RawMaterialController extends ControllerBase{
 		echo json_encode($data);
 	}
 
+	function getCategories() {
+		$data = $this->model->getCategories();
+		echo json_encode($data);
+	}
+
 	function addMaterial(){
 		$response = array(
 			'status' => FALSE,
