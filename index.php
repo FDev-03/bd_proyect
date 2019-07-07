@@ -8,6 +8,7 @@ require_once 'libs/ControllerBase.php';
 require_once 'libs/ViewBase.php';
 require_once 'libs/ModelBase.php';
 require_once 'libs/App.php';
+require_once 'libs/UserSession.php';
 
 require_once 'config/config.php';
 
