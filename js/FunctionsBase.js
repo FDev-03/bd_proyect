@@ -3,11 +3,12 @@ var app = angular.module('AppBase', ['ngAnimate', 'ngSanitize', 'ui.bootstrap'])
 app.factory('ConfigVariables', function($http) {
   return {
 		URL : 'http://localhost/bd_proyect/'
+		//URL : 'http://192.168.44.44/bd_proyect/'
   };
 });
 
 app.controller('GetCtrl', function($scope, $http, $httpParamSerializerJQLike, $uibModal, $location, $window, ConfigVariables) {
-	
+
 	var absurl = $location.absUrl();
 	var url = new URL(absurl);
 	$scope.npage = url.searchParams.get("page");
@@ -42,7 +43,7 @@ app.controller('GetCtrl', function($scope, $http, $httpParamSerializerJQLike, $u
       controller: 'ModalInstanceCtrl',
       resolve: {
         data: function () {
-          return row_id; 
+          return row_id;
         }
       }
     });
@@ -66,7 +67,7 @@ app.controller('GetCtrl', function($scope, $http, $httpParamSerializerJQLike, $u
 
 
 app.controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, $http, $httpParamSerializerJQLike, data) {
-  
+
 	$http({
 		url: 'gettest/getSpecific',
 		method: 'POST',
@@ -108,9 +109,4 @@ app.controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, $http, 
   $scope.Cancel = function () {
     $uibModalInstance.close();
   };
-});
-
-app.controller('Provider', function($scope, ConfigVariables){
-	console.log("here!")
-
 });

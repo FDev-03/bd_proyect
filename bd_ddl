@@ -1,3 +1,5 @@
+// BD (Secciones de pruebas)
+
 create database test;
 
 use test;
@@ -15,3 +17,114 @@ ALTER TABLE prueba AUTO_INCREMENT=1;
 INSERT INTO prueba (name,lastname,number) VALUES
 ('Fer','Torres',3),
 ('Juan','Diaz',5);
+
+
+// BD (Secciones del proyecto)
+
+create database vestirnossas;
+
+use vestirnossas;
+
+create table proveedor(
+	id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	nombre_contacto varchar(40) NOT NULL,
+	razon_social varchar(40) NOT NULL,
+	motivo varchar(300),
+	fecha_retiro DATE
+);
+
+create table telefono_proveedor(
+	numero int NOT NULL,
+	id_proveedor int NOT NULL,
+	PRIMARY KEY (numero, id_proveedor),
+	FOREIGN KEY (id_proveedor) REFERENCES proveedor(id)
+);
+
+create table categoria(
+	id_categoria int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	nombre varchar(40) NOT NULL
+);
+
+create table materia_prima(
+	id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	precio int NOT NULL,
+	unidad varchar(20) NOT NULL,
+	id_categoria int NOT NULL,
+	FOREIGN KEY (id_categoria) REFERENCES categoria(id_categoria)
+);
+
+create table mp_proveedor(
+	id_materiap int NOT NULL,
+	id_proveedor int NOT NULL,
+	PRIMARY KEY (id_materiap,id_proveedor),
+	FOREIGN KEY (id_materiap) REFERENCES materia_prima(id),
+	FOREIGN KEY (id_proveedor) REFERENCES proveedor(id)
+);
+
+create table inventario_m(
+	id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	cantidad int NOT NULL,
+	fecha DATE,
+	id_materia_prima int NOT NULL,
+	FOREIGN KEY (id_materia_prima) REFERENCES materia_prima(id)
+);
+
+DELIMITER $$
+CREATE OR REPLACE FUNCTION add_to_inventory_m (cantidad integer, fecha datetime, id integer)
+RETURNS varchar(7)
+DETERMINISTIC
+BEGIN
+	INSERT INTO inventario_m (cantidad,fecha,id_materia_prima) VALUES
+	(cantidad,fecha,id);
+	RETURN 'SUCCESS';
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE OR REPLACE FUNCTION add_to_mp_proveedor (id_matp integer, id_prov integer)
+RETURNS varchar(7)
+DETERMINISTIC
+BEGIN
+	INSERT INTO mp_proveedor VALUES
+	(id_matp,id_prov);
+	RETURN 'SUCCESS';
+END$$
+DELIMITER ;
+
+///Show functions list -> show function status;
+
+INSERT INTO categoria (nombre) VALUES
+('Boton'),
+('Tela'),
+('Hilo'),
+('Cremallera'),
+('Taches');
+
+INSERT INTO materia_prima (precio, unidad, id_categoria) VALUES
+(50000,'kilogramos', 1),
+(10000,'unidades', 2),
+(50000,'metros', 1);
+
+INSERT INTO inventario_m (cantidad,fecha,id_materia_prima) VALUES
+(10,'2008-7-04', 1),
+(5,'2008-7-04', 2),
+(10,'2008-7-04', 3);
+
+INSERT INTO proveedor (nombre_contacto, razon_social) VALUES
+('Fer','FDev'),
+('Cam','CDev'),
+('Juan','JDev');
+
+INSERT INTO telefono_proveedor VALUES
+(123456,1),
+(223456,2),
+(323456,3);
+
+INSERT INTO mp_proveedor VALUES
+(1,1),
+(2,2),
+(3,3);
+
+CREATE VIEW active_providers AS
+SELECT id, nombre_contacto FROM proveedor
+WHERE motivo IS NULL AND fecha_retiro IS NULL;

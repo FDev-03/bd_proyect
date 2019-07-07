@@ -1,0 +1,24 @@
+<div class="modal-header">
+  <h3 class="modal-title center" id="modal-title">Retirar Proveedor</h3>
+</div>
+<div class="modal-body" id="modal-body">
+  <div class="center">
+    <ul class="form-group-list">
+      <li>
+        <label>Razón:</label>
+        <ul class="group-list">
+          <li>
+            <textarea id="reazon"
+              name="reazon" rows="6" cols="50" ng-model="reazon" ng-value="reazon"
+              placeholder="Escriba la razón de retiro en 300 caracteres o menos."
+              class="textarea_modal" maxlength="300" required></textarea>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-primary" type="button" ng-click="Update()">Retirar</button>
+  <button class="btn btn-warning" type="button" ng-click="Cancel()">Cancel</button>
+</div>

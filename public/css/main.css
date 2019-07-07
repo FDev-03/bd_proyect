@@ -34,19 +34,145 @@ body {
 	padding: 10px;
 }
 
+#multiple li a {
+	color: black !important;
+	padding: 5px !important;
+}
+
 .center {
 	text-align: center;
 }
 
 table {
-	width:70%; 
-	margin-left:15%; 
+	width:70%;
+	margin-left:15%;
 	margin-right:15%;
 }
 
-th, td {
-  text-align: center;
+#providers_retired tbody th, #providers_retired tbody td {
+  text-align: center !important;
+  padding: 11px !important;
+}
+
+#providers_hired tbody th, #providers_hired tbody td {
+  text-align: center !important;
   padding: 8px !important;
 }
 
 tr:nth-child(even) {background-color: #f2f2f2;}
+
+.group-list {
+	width: 65%;
+}
+
+ul .group-list {
+	display: inline-block;
+	padding: 0;
+	margin: 0;
+	width: auto;
+	vertical-align: top;
+	list-style-type: none;
+}
+
+.form-group-list{
+	list-style-type: none;
+	padding: 0;
+}
+
+.textarea_modal{
+	max-width: 570px;
+	min-width: 375px;
+	max-height: 283px;
+	min-height: 129px;
+}
+
+.Button{
+	display: inline-block;
+	background-color: #ecd0d0;
+	border: 0 solid currentcolor;
+	border-radius: 3px;
+	box-shadow: 1px 1px 2px rgba(0,0,0,.15);
+	box-sizing: border-box;
+	color: inherit;
+	font: inherit;
+	font-weight: 600;
+	margin: 0;
+	padding: .3em 1.2em;
+	position: relative;
+	text-align: center;
+	text-decoration: none;
+	-webkit-transition: box-shadow .35s,background-color .35s;
+	transition: box-shadow .35s,background-color .35s;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	vertical-align: middle;
+	cursor: pointer;
+}
+
+.Pagination-links{
+	margin-top: 0;
+	margin-bottom: 0;
+	padding-left: 0;
+}
+.Pagination-links li{
+	list-style: none;
+	display: inline-block;
+}
+
+.Pagination-links li.is-selected a {
+	background-color: #ecd0d0;
+	color: black;
+}
+
+.Pagination-links li a:hover {
+	background-color: #9292e3;
+}
+
+.Pagination {
+	text-align: center;
+	margin-top: 4rem;
+}
+
+.Pagination-links li a {
+
+	display: block;
+	margin-left: 2px;
+	margin-right: 2px;
+	padding: .5rem 1rem;
+	background-color: #f3f3f3;
+	border-radius: 3px;
+
+}
+
+a {
+	color: #ecd0d0;
+	text-decoration: none;
+}
+
+#actions ul{
+	list-style: none;
+	margin-top: 2em;
+	margin-right: 2em;
+	margin-bottom: 2em;
+	margin-left: 15%;
+	padding: 0;
+}
+
+ul.form-group-list li {
+	margin-bottom: 7px;
+	position: relative;
+	padding: 10px 15px;
+}
+
+ul.form-group-list li input {
+	padding: .2em;
+}
+
+/* Session Styles */
+.close-session{
+	float: right;
+	padding: 0px 15px !important;
+}
+
