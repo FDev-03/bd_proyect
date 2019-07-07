@@ -1,13 +1,35 @@
-var app = angular.module('AppBase', ['ngAnimate', 'ngSanitize', 'ui.bootstrap']);
+var app = angular.module('AppBase', ['ngAnimate', 'ngSanitize', 'ui.bootstrap', 'angular-growl']);
 
-app.factory('ConfigVariables', function($http) {
+app.config(['growlProvider', function (growlProvider) {
+	growlProvider.globalTimeToLive(3000);
+}]);
+
+app.factory('ConfigVariables', function ($http, growl) {
   return {
-		URL : 'http://localhost/bd_proyect/'
+		URL : 'http://localhost/bd_proyect/',
 		//URL : 'http://192.168.44.44/bd_proyect/'
+		showWarning : function (message) {
+			growl.warning(message, {	title: 'Adevertencia!' });
+		},
+		showError : function (message) {
+			growl.error(message, { title: 'Error!' });
+		},
+		showSuccess : function (message) {
+			growl.success(message, {
+				title: 'Hecho!',
+				onclose: function () {
+					location.reload();
+				}
+			});
+		},
+		showInfo : function (message) {
+			growl.info(message, { title: 'Info!' });
+		}
   };
 });
 
-app.controller('Provider', function($scope, $http, $location, $window, $httpParamSerializerJQLike, $uibModal, ConfigVariables){
+app.controller('Provider', function($scope, $http, $location, $window,
+	$httpParamSerializerJQLike, $uibModal, ConfigVariables, growl){
 
 	var absurl = $location.absUrl();
 	var url = new URL(absurl);
@@ -97,12 +119,12 @@ app.controller('Provider', function($scope, $http, $location, $window, $httpPara
 
 
 app.controller('ModalProviders', function ($scope, $uibModalInstance, $http,
-	$httpParamSerializerJQLike, ConfigVariables, data) {
+	$httpParamSerializerJQLike, ConfigVariables, data, growl) {
 
   $scope.Update = function () {
 
   	if ($scope.reazon == null) {
-  		alert("Debe llenar el campo 'Razón'.");
+			ConfigVariables.showWarning("Debe llenar el campo 'Razón'.");
   		return;
   	}
 
@@ -120,10 +142,10 @@ app.controller('ModalProviders', function ($scope, $uibModalInstance, $http,
 		}).then(function (response) {
 			if (response.data.status != false) {
 				$uibModalInstance.close();
-				alert("Proveedor retirado");
-				location.reload();
+				ConfigVariables.showSuccess("Proveedor retirado (Se Recarará la página)");
+				//location.reload();
 			}else{
-				alert("Error en la validación");
+				ConfigVariables.showError("Error en la validación");
 			}
 		});
 	};
@@ -144,9 +166,9 @@ app.controller('ModalProviders', function ($scope, $uibModalInstance, $http,
 
 		if (empty_fields.length > 0) {
 			if (empty_fields.length === 1) {
-				alert('Debe llenar el campo ' + empty_fields.join());
+				ConfigVariables.showWarning('Debe llenar el campo ' + empty_fields.join());
 			}else{
-				alert('Debe llenar los campos ' + empty_fields.join());
+				ConfigVariables.showWarning('Debe llenar los campos ' + empty_fields.join());
 			}
 			return;
 		}
@@ -167,12 +189,12 @@ app.controller('ModalProviders', function ($scope, $uibModalInstance, $http,
 		}).then(function (response) {
 			if (response.data.status != false) {
 				$uibModalInstance.close();
-				alert("Proveedor Agregado");
-				location.reload();
+				ConfigVariables.showSuccess("Proveedor Agregado (Se Recarará la página)");
+				//location.reload();
 			} else {
-				alert("Error en la adición.");
+				ConfigVariables.showError("Error en la adición.");
 			}
-		}); 
+		});
 	};
 
   $scope.Cancel = function () {

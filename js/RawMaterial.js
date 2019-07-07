@@ -1,13 +1,35 @@
-var app = angular.module('AppBase', ['ngAnimate', 'ngSanitize', 'ui.bootstrap']);
+var app = angular.module('AppBase', ['ngAnimate', 'ngSanitize', 'ui.bootstrap', 'angular-growl']);
 
-app.factory('ConfigVariables', function($http) {
-  return {
-		URL : 'http://localhost/bd_proyect/'
+app.config(['growlProvider', function (growlProvider) {
+	growlProvider.globalTimeToLive(3000);
+}]);
+
+app.factory('ConfigVariables', function ($http, growl) {
+	return {
+		URL: 'http://localhost/bd_proyect/',
 		//URL : 'http://192.168.44.44/bd_proyect/'
-  };
+		showWarning: function (message) {
+			growl.warning(message, { title: 'Adevertencia!' });
+		},
+		showError: function (message) {
+			growl.error(message, { title: 'Error!' });
+		},
+		showSuccess: function (message) {
+			growl.success(message, {
+				title: 'Hecho!',
+				onclose: function () {
+					location.reload();
+				}
+			});
+		},
+		showInfo: function (message) {
+			growl.info(message, { title: 'Info!' });
+		}
+	};
 });
 
-app.controller('RawMaterial', function($scope, $http, $location, $window, $httpParamSerializerJQLike, $uibModal, ConfigVariables){
+app.controller('RawMaterial', function($scope, $http, $location, $window,
+	$httpParamSerializerJQLike, $uibModal, ConfigVariables, growl){
 
 	var absurl = $location.absUrl();
 	var url = new URL(absurl);
@@ -53,7 +75,7 @@ app.controller('RawMaterial', function($scope, $http, $location, $window, $httpP
 
 
 app.controller('ModalMaterials', function ($scope, $uibModalInstance, $http,
-	$httpParamSerializerJQLike, ConfigVariables, data) {
+	$httpParamSerializerJQLike, ConfigVariables, data, growl) {
 
 	// possible categories.
 	$http({
@@ -68,7 +90,7 @@ app.controller('ModalMaterials', function ($scope, $uibModalInstance, $http,
 		}else if(response.data.status == 1){
 			$scope.category_options = response.data.data
 		}
-	});	
+	});
 
 	// possible providers.
 	$http({
@@ -96,7 +118,7 @@ app.controller('ModalMaterials', function ($scope, $uibModalInstance, $http,
 			id: 'unidades',
 			label: 'Unidades'
 		}
-	];	
+	];
 
 	$scope.Add = function () {
 
@@ -116,9 +138,9 @@ app.controller('ModalMaterials', function ($scope, $uibModalInstance, $http,
 
 		if (empty_fields.length > 0) {
 			if (empty_fields.length === 1) {
-				alert('Debe llenar el campo ' + empty_fields.join());
+				ConfigVariables.showWarning('Debe llenar el campo ' + empty_fields.join());
 			}else{
-				alert('Debe llenar los campos ' + empty_fields.join());
+				ConfigVariables.showWarning('Debe llenar los campos ' + empty_fields.join());
 			}
 			return;
 		}
@@ -141,12 +163,12 @@ app.controller('ModalMaterials', function ($scope, $uibModalInstance, $http,
 		}).then(function (response) {
 			if (response.data.status != false) {
 				$uibModalInstance.close();
-				alert("Material Agregado");
-				location.reload();
+				ConfigVariables.showSuccess("Material Agregado (Se Recarará la página)");
+				//location.reload();
 			} else {
-				alert("Error en la adición.");
+				ConfigVariables.showError("Error en la adición.");
 			}
-		}); 
+		});
 	};
 
   $scope.Cancel = function () {
