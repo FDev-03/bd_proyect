@@ -12,6 +12,7 @@ create table prueba(
 	PRIMARY KEY (id)
 );
 
+
 ALTER TABLE prueba AUTO_INCREMENT=1;
 
 INSERT INTO prueba (name,lastname,number) VALUES
