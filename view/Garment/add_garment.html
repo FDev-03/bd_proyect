@@ -1,0 +1,35 @@
+<div class="modal-header">
+  <h3 class="modal-title center" id="modal-title">Agregar Prenda</h3>
+</div>
+<div class="modal-body" id="modal-body">
+  <div class="center">
+    <ul class="form-group-list">
+      <li>
+        <label for="prenda_nombre">Nombre</label>
+        <input type="text" placeholder="Nombre" name="Nombre de la prenda"
+          ng-model="prenda_nombre" ng-value="prenda_nombre" required>
+      </li>
+      <li>
+        <label for="prenda_precio">Precio</label>
+        <input type="number" placeholder="Precio" name="Precio de la prenda"
+          ng-model="prenda_precio" ng-value="prenda_precio" required>
+      </li>
+      <li>
+        <label for="prenda_talla">Tallas</label>
+        <input type="number" placeholder="Tallas" name="prenda_talla" 
+          ng-model="prenda_talla" ng-value="prenda_talla" required>
+      </li>  
+      <li>
+        <label for="prenda_tipo">Tipo</label>
+        <input type="text" placeholder="Tipo" name="prenda_tipo" 
+          ng-model="prenda_tipo" ng-value="prenda_tipo" required>
+      </li>  
+    </ul>
+  </div>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-primary" type="button"
+    ng-click="Add()">Agregar</button>
+  <button class="btn btn-warning" type="button"
+    ng-click="Cancel()">Cancel</button>
+</div>

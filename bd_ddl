@@ -12,6 +12,7 @@ create table prueba(
 	PRIMARY KEY (id)
 );
 
+
 ALTER TABLE prueba AUTO_INCREMENT=1;
 
 INSERT INTO prueba (name,lastname,number) VALUES
@@ -67,6 +68,33 @@ create table inventario_m(
 	fecha DATE,
 	id_materia_prima int NOT NULL,
 	FOREIGN KEY (id_materia_prima) REFERENCES materia_prima(id)
+);
+
+CREATE TABLE prenda (
+    id int NOT NULL AUTO_INCREMENT,
+    precio int,
+    nombre varchar(50),
+    talla int,
+    tipo varchar(50),
+    PRIMARY KEY (id)
+);
+    
+CREATE TABLE mp_prenda (
+    id_prenda int not null,
+    id_mate_prima int,
+    cant_utilizada int,
+    PRIMARY KEY (id_prenda,id_mate_prima),
+    FOREIGN KEY (id_prenda) REFERENCES prenda(id),
+    FOREIGN KEY (id_mate_prima) REFERENCES materia_prima (id)
+);
+    
+CREATE TABLE inventario_p(
+    id int not null,
+    cantidad int,
+    fecha date,
+    id_prenda int,
+    PRIMARY KEY (id),
+    FOREIGN KEY (id_prenda) REFERENCES prenda(id)
 );
 
 DELIMITER $$
