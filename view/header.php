@@ -32,6 +32,7 @@
                     </ul>
                 </li>
                 <li><a href="<?php echo constant('URL'); ?>rawmaterial">Materia Prima</a></li>
+                <li><a href="<?php echo constant('URL'); ?>garment">Prendas</a></li>
 			</ul>
 		</div>
 
