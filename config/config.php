@@ -4,12 +4,16 @@
 define('URL', 'http://localhost/bd_proyect/');
 //define('URL', 'http://192.168.44.44/bd_proyect/');
 
-# Db connection. 
+# Db connection.
 define('DB', 'test');
 define('USER', 'root');
 //define('PASSWORD', 'root');
 define('PASSWORD', '');
 define('HOST', 'localhost');
 define('CHARSET', 'utf8');
+
+# Administer User.
+define('SESSION_USERNAME','admin');
+define('SESSION_PASSWORD','VestSa_2019');
 
 ?>

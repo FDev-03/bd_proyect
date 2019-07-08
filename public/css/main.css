@@ -169,3 +169,10 @@ ul.form-group-list li {
 ul.form-group-list li input {
 	padding: .2em;
 }
+
+/* Session Styles */
+.close-session{
+	float: right;
+	padding: 0px 15px !important;
+}
+

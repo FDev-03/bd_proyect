@@ -97,10 +97,10 @@ CREATE TABLE inventario_p(
 );
 
 DELIMITER $$
-CREATE OR REPLACE FUNCTION add_to_inventory_m (cantidad integer, fecha varchar(12), id integer) 
+CREATE OR REPLACE FUNCTION add_to_inventory_m (cantidad integer, fecha datetime, id integer)
 RETURNS varchar(7)
 DETERMINISTIC
-BEGIN 
+BEGIN
 	INSERT INTO inventario_m (cantidad,fecha,id_materia_prima) VALUES
 	(cantidad,fecha,id);
 	RETURN 'SUCCESS';
@@ -108,10 +108,10 @@ END$$
 DELIMITER ;
 
 DELIMITER $$
-CREATE OR REPLACE FUNCTION add_to_mp_proveedor (id_matp integer, id_prov integer) 
+CREATE OR REPLACE FUNCTION add_to_mp_proveedor (id_matp integer, id_prov integer)
 RETURNS varchar(7)
 DETERMINISTIC
-BEGIN 
+BEGIN
 	INSERT INTO mp_proveedor VALUES
 	(id_matp,id_prov);
 	RETURN 'SUCCESS';

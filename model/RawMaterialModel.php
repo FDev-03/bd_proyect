@@ -1,10 +1,10 @@
 <?php
 
 /**
- * 
+ *
  */
 class RawMaterialModel extends ModelBase{
-	
+
 	public $nombre;
 
 	public $id;
@@ -37,7 +37,7 @@ class RawMaterialModel extends ModelBase{
 				'message' => 'success'
 			);
 			$connection = $this->db->connect();
-			
+
 			$nRows = $this->countRows($connection, $this->table_materia_prima);
 
 			if ($nRows < 1){
@@ -48,13 +48,13 @@ class RawMaterialModel extends ModelBase{
 			}
 			$nAvailable = ceil($nRows/$this->ndata);
 			$npage = $_GET['npage'];
-		
+
 			if (!is_numeric($npage) || $npage<1 || $npage > $nAvailable) {
 				return FALSE;
 			}
 
 			$start_point = ($npage * $this->ndata) - $this->ndata;
-			
+
 			$query = "SELECT matp.*, cat.nombre, inv.cantidad, inv.fecha, prov.razon_social FROM " . $this->table_materia_prima . " AS matp";
 			$query .= " JOIN " . $this->table_categoria . " AS cat";
 			$query .= " ON matp.id_categoria = cat.id_categoria";
@@ -66,9 +66,9 @@ class RawMaterialModel extends ModelBase{
 			$query .= " ON mp_prov.id_proveedor = prov.id";
 			$query .= " LIMIT $start_point, $this->ndata";
 
-			$result_data = $connection->query($query); 
+			$result_data = $connection->query($query);
 
-	    if($result_data->rowCount() > 0) { 
+	    if($result_data->rowCount() > 0) {
         while($row = $result_data->fetch()) {
 					$material = new RawMaterialModel();
 					$material->id = $row['id'];
@@ -81,11 +81,11 @@ class RawMaterialModel extends ModelBase{
 					$response['data'][] = $material;
         }
 	      $response['available'] = range(1, $nAvailable);
-	    } else { 
+	    } else {
         $response['status'] = 0;
         $response['available'] = 0;
         $response['message'] = 'No records matching are found';
-	    } 
+	    }
 			return $response;
 		}catch(PDOException $e){
 			return $e;
@@ -98,13 +98,13 @@ class RawMaterialModel extends ModelBase{
 			$connection = $this->db->connect();
 			$query = "SELECT id_categoria, nombre FROM " . $this->table_categoria;
 
-			$result_data = $connection->query($query); 
+			$result_data = $connection->query($query);
 			$response = array(
 				'status' => 1,
 				'message' => 'success'
 			);
 
-	    if($result_data->rowCount() > 0) { 
+	    if($result_data->rowCount() > 0) {
 	      while($row = $result_data->fetch()) {
 	      	$category = array(
 	      		'id' => $row['id_categoria'],
@@ -112,7 +112,7 @@ class RawMaterialModel extends ModelBase{
 	      	);
 					$response['data'][] = $category;
 	      }
-	    } else { 
+	    } else {
 	      $response['status'] = 0;
 	      $response['available'] = 0;
 	      $response['message'] = 'No records matching are found';
@@ -139,7 +139,7 @@ class RawMaterialModel extends ModelBase{
 			// Call 'add_to_inventory_m' method.
 			$id = $connect->lastInsertId();
 			$amount = $params['amount_material']['value'];
-			$sql_query = "SELECT add_to_inventory_m($amount, $current_date, $id)";
+			$sql_query = "SELECT add_to_inventory_m($amount, '$current_date', $id)";
 			$query = $connect->prepare($sql_query);
 			$query->execute();
 
@@ -153,5 +153,5 @@ class RawMaterialModel extends ModelBase{
 		}catch(PDOException $e){
 			return false;
 		}
-	}	
+	}
 }
