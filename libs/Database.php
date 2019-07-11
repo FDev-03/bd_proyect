@@ -1,13 +1,14 @@
 <?php
 
 /**
- * 
+ *
  */
 class Database {
 
 	private $host;
 	private $user;
 	private $db;
+	private $port;
 	private $password;
 	private $charset;
 
@@ -16,12 +17,16 @@ class Database {
 		$this->user = constant('USER');
 		$this->password = constant('PASSWORD');
 		$this->db = constant('DB');
+		$this->port = constant('PORT');
 		$this->charset = constant('CHARSET');
 	}
 
 	public function connect(){
 		try{
 			$connection = "mysql:host=" . $this->host . ";";
+			if ($this->port != '') {
+				$connection .= "port=" . $this->db . ";";
+			}
 			$connection .= "dbname=" . $this->db . ";";
 			$connection .= "charset=" . $this->charset . ";";
 

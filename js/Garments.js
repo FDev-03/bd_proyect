@@ -2,7 +2,8 @@ var app = angular.module('AppBase', ['ngAnimate', 'ngSanitize', 'ui.bootstrap'])
 
 app.factory('ConfigVariables', function($http) {
   return {
-		URL : 'http://localhost/bd_proyect/'
+		URL : 'http://pruebas/bd_proyect/'
+		//URL : 'http://localhost/bd_proyect/'
 		//URL : 'http://192.168.44.44/bd_proyect/'
   };
 });
@@ -24,6 +25,7 @@ app.controller('Garments', function($scope, $http, $location, $window, $httpPara
 			'Content-Type': 'application/json'
 		}
 	}).then(function (response) {
+		console.log(response)
 		if (response.data == false) {
 			$window.location.href = ConfigVariables.URL + 'main/error';
 		}else if(response.data.status == 1){
@@ -47,7 +49,7 @@ app.controller('Garments', function($scope, $http, $location, $window, $httpPara
 				}
 			}
 		});
-	}	
+	}
 });
 
 
@@ -100,7 +102,7 @@ app.controller('ModalGarments', function ($scope, $uibModalInstance, $http,
 			} else {
 				alert("Error en la adición.");
 			}
-		}); 
+		});
 	};
 
   $scope.Cancel = function () {

@@ -2,7 +2,8 @@ var app = angular.module('AppBase', ['ngAnimate', 'ngSanitize', 'ui.bootstrap'])
 
 app.factory('ConfigVariables', function($http) {
   return {
-		URL : 'http://localhost/bd_proyect/'
+		URL : 'http://pruebas/bd_proyect/'
+		//URL : 'http://localhost/bd_proyect/'
 		//URL : 'http://192.168.44.44/bd_proyect/'
   };
 });

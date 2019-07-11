@@ -13,9 +13,6 @@
 		<div id="header">
 			<ul>
 				<li><a href="<?php echo constant('URL'); ?>main">INICIO</a></li>
-				<li><a href="<?php echo constant('URL'); ?>help">AYUDA</a></li>
-				<li><a href="<?php echo constant('URL'); ?>settest">SET (Prueba)</a></li>
-				<li><a href="<?php echo constant('URL'); ?>gettest">GET (Prueba)</a></li>
                 <li class="dropdown" id="multiple">
                     <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Proveedores<span class="caret"></span></a>
                     <ul class="dropdown-menu center">

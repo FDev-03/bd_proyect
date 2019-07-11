@@ -1,27 +1,3 @@
-// BD (Secciones de pruebas)
-
-create database test;
-
-use test;
-
-create table prueba(
-	id int NOT NULL AUTO_INCREMENT,
-	name varchar(50) NOT NULL,
-	lastname varchar(50),
-	number int,
-	PRIMARY KEY (id)
-);
-
-
-ALTER TABLE prueba AUTO_INCREMENT=1;
-
-INSERT INTO prueba (name,lastname,number) VALUES
-('Fer','Torres',3),
-('Juan','Diaz',5);
-
-
-// BD (Secciones del proyecto)
-
 create database vestirnossas;
 
 use vestirnossas;
@@ -70,89 +46,324 @@ create table inventario_m(
 	FOREIGN KEY (id_materia_prima) REFERENCES materia_prima(id)
 );
 
-CREATE TABLE prenda (
-    id int NOT NULL AUTO_INCREMENT,
-    precio int,
-    nombre varchar(50),
-    talla int,
-    tipo varchar(50),
-    PRIMARY KEY (id)
-);
-    
-CREATE TABLE mp_prenda (
-    id_prenda int not null,
-    id_mate_prima int,
-    cant_utilizada int,
-    PRIMARY KEY (id_prenda,id_mate_prima),
-    FOREIGN KEY (id_prenda) REFERENCES prenda(id),
-    FOREIGN KEY (id_mate_prima) REFERENCES materia_prima (id)
-);
-    
-CREATE TABLE inventario_p(
-    id int not null,
-    cantidad int,
-    fecha date,
-    id_prenda int,
-    PRIMARY KEY (id),
-    FOREIGN KEY (id_prenda) REFERENCES prenda(id)
+create table talla(
+	id_talla int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	nombre varchar(40) NOT NULL
 );
 
-DELIMITER $$
-CREATE OR REPLACE FUNCTION add_to_inventory_m (cantidad integer, fecha datetime, id integer)
+create table tipo(
+	id_tipo int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	nombre varchar(40) NOT NULL
+);
+
+create table prenda(
+	id int NOT NULL,
+	precio int not null,
+	nombre varchar(40) NOT NULL,
+	talla int NOT NULL,
+	tipo int NOT NULL,
+	PRIMARY KEY (id),
+	FOREIGN KEY (tipo) REFERENCES tipo(id_tipo),
+	FOREIGN KEY (talla) REFERENCES talla(id_talla)
+);
+
+create table mp_prenda(
+	id_prenda int NOT NULL,
+	id_materia_prima int NOT NULL,
+	cant_utlizada int NOT NULL,
+	PRIMARY KEY (id_prenda,id_materia_prima),
+	FOREIGN KEY (id_prenda) REFERENCES prenda(id),
+	FOREIGN KEY (id_materia_prima) REFERENCES materia_prima(id)
+);
+
+create table inventario_p(
+	id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	cantidad int NOT NULL,
+	fecha DATE,
+	id_prenda int NOT NULL,
+	FOREIGN KEY (id_prenda) REFERENCES prenda(id)
+);
+
+
+create table departamento(
+	id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	nombre varchar(50) NOT NULL
+);
+
+
+create table empleado(
+	id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	nombre varchar(40) NOT NULL,
+	direccion varchar(40) NOT NULL,
+	telefono int,
+	id_departamento int NOT NULL,
+	FOREIGN KEY (id_departamento) REFERENCES departamento(id)
+);
+
+create table cliente(
+	id int NOT NULL,
+	nombre_contacto varchar(50) NOT NULL,
+	PRIMARY KEY (id)
+);
+
+create table telefono_cliente(
+	numero int NOT NULL,
+	id_cliente int NOT NULL,
+	PRIMARY KEY (numero, id_cliente),
+	FOREIGN KEY (id_cliente) REFERENCES cliente(id)
+);
+
+
+create table venta(
+	id int NOT NULL,
+	fecha DATE NOT NULL,
+	id_empleado int NOT NULL,
+	id_cliente int NOT NULL,
+	PRIMARY KEY (id),
+	FOREIGN KEY (id_empleado) REFERENCES empleado(id),
+	FOREIGN KEY (id_cliente) REFERENCES cliente(id)
+);
+
+create table prenda_venta(
+	cantidad int NOT NULL,
+	precio_total int NOT NULL,
+	id_prenda int NOT NULL,
+	id_venta int NOT NULL,
+	PRIMARY KEY (id_prenda, id_venta),
+	FOREIGN KEY (id_prenda) REFERENCES prenda(id),
+	FOREIGN KEY (id_venta) REFERENCES venta(id)
+);
+
+
+INSERT INTO proveedor (id, nombre_contacto, razon_social) values
+(101415,'MARY LUZ CORTES MUÑOZ','EL GATO GRIS'),
+(101416,'MARIBEL PATIÑO ROMERO','LA PUERTA REAL');
+
+INSERT INTO telefono_proveedor values
+(2677682,101415),
+(2677683,101416);
+
+INSERT INTO categoria values
+(1,'Boton'),
+(2,'Tela'),
+(3,'Hilo'),
+(4,'Cremallera'),
+(5,'Taches');
+
+INSERT INTO materia_prima values
+(21,15000,'unidades',1),
+(22,14000,'metros',2),
+(23,20000,'unidades',3),
+(24,13000,'unidades',4),
+(25,15000,'kilogramos',5);
+
+INSERT INTO mp_proveedor values
+(21,101415),
+(22,101416),
+(23,101415),
+(24,101415),
+(25,101416);
+
+INSERT INTO inventario_m values
+(1,4,'2019-07-09',21),
+(2,2,'2019-07-09',22),
+(3,5,'2019-07-09',23),
+(4,3,'2019-07-10',24),
+(5,6,'2019-07-10',25),
+(6,6,'2019-07-11',21);
+
+INSERT INTO tipo values
+(1,'IMPERMEABLE'),
+(2,'TRANSFORMABLE'),
+(3,'FORMAL'),
+(4,'INFORMAL'),
+(5,'ESTAMPADO'),
+(6,'JEAN');
+
+INSERT INTO talla values
+(1,'S'),
+(2,'M'),
+(3,'L'),
+(4,'XL'),
+(5,'XXL');
+
+INSERT INTO prenda values
+(1,50000,'saco',1,3),
+(2,65000,'chaqueta',3,1),
+(3,25000,'pantalon',4,5),
+(4,20000,'camiseta con mangas',2,3),
+(5,45000,'camisa con mangas',1,4),
+(6,45000,'abrigo',5,2),
+(7,10000,'pantolaneta',3,3),
+(8,25000,'pijama',1,2),
+(9,15000,'camiseta sin mangas',4,4),
+(10,12200,'camisa sin mangas',2,4),
+(11,64000,'sueter',3,3),
+(12,40000,'blusa',4,4),
+(13,55000,'falda',5,3),
+(14,180000,'traje',2,1),
+(15,98000,'vestido',1,3);
+
+INSERT INTO inventario_p values
+(10,4,'2019-07-09',1),
+(11,5,'2019-07-09',2),
+(12,3,'2019-07-09',3),
+(13,6,'2019-07-09',4),
+(14,4,'2019-07-09',5),
+(15,2,'2019-07-09',6),
+(16,1,'2019-07-10',7),
+(17,5,'2019-07-10',8),
+(18,3,'2019-07-10',9),
+(19,1,'2019-07-10',10),
+(20,3,'2019-07-10',11),
+(21,2,'2019-07-11',12),
+(22,1,'2019-07-11',13),
+(23,4,'2019-07-11',14),
+(24,2,'2019-07-12',15);
+
+INSERT INTO mp_prenda values
+(1,21,6),
+(2,22,2),
+(3,24,3),
+(4,23,4),
+(5,25,2),
+(6,24,1),
+(7,21,3),
+(8,25,2),
+(9,21,4),
+(10,23,2),
+(11,24,4),
+(12,21,2),
+(13,23,3),
+(14,24,2),
+(15,22,4);
+
+INSERT INTO cliente values
+(52962491,'BERTHA XIMENA'),
+(52517450,'BETSABE BAUTISTA VARGAS'),
+(52427093,'CAMILO ALEXANDER BOLIVAR'),
+(39625110,'CAROLINA ISAZA RAMIREZ'),
+(51963634,'CESAR AUGUSTO RAMIREZ'),
+(52329575,'CELMIRA PATRICIA ARROYAVE'),
+(51553923,'CLAUDIA MARCELA'),
+(52835436,'CLAUDIA MARCELAS LOZADA'),
+(35353993,'CLAUDIA PATRICIA BOLIVAR'),
+(52146038,'CLAUDIA PATRICIA GALLO'),
+(30402976,'CLAUDIA PILAR VANEGAS'),
+(52771781,'CONSTANZA AGUDELO'),
+(52252464,'CONSUELO GUERRERO'),
+(79800914,'CONSUELO REYES');
+
+INSERT INTO telefono_cliente values
+(6790901,52962491),
+(6790902,52517450),
+(6790903,52427093),
+(6790904,39625110),
+(6790905,51963634),
+(6790906,52329575),
+(6790907,51553923),
+(6790908,52835436),
+(6790909,35353993),
+(6790910,52146038),
+(6790911,30402976),
+(6790912,52771781),
+(6790913,52252464),
+(6790914,79800914);
+
+insert into departamento values
+(1,'Sistemas'),
+(2,'Contaduria'),
+(3,'Gerencia'),
+(4,'Ventas'),
+(5,'Marketing');
+
+INSERT INTO empleado values
+(52710695,'ADRIANA PAOLA CUJAR ALARCON','CRA 3 # 12 B 55',3114603,1),
+(51738984,'ADRIANA GIRALDO GOMEZ','CALLE 12 # 3 - 92',31479,5),
+(52355290,'ADRIANA MARCELA SALCEDO SEGURA','CALLE 12 D # 4 -15',7403,1),
+(79962291,'ALEXANDER  DUARTE SANDOVAL','CALLE 12 # 3',7127,4),
+(41547273,'ALCIRA SANTANILLA CARVAJAL','CARRERA 3 # 12 B 79',6771,2),
+(51899077,'AMPARO MONTOYA MONTOYA','CALLE 12 # 3',3134931,4),
+(39568175,'ANA MARIA LOZANO SANTOS','CARRERA 3 # 12 B 79',3108197,4),
+(52755672,'ANDREA ARIZA ZAMBRANO','CRA 4 # 12 -15',4340,2),
+(52817196,'ANDREA CAROLINA ACUÑA MENDOZA','CLL 12B # 1-44',3012313,3),
+(52960227,'ANDREA DEL PILAR CORTES BARRETO','CALLE 10 # 2 - 99',3217619,3),
+(52329187,'ANDREA DEL PILAR GUZMAN ROJAS','CRA 3 # 12B - 35',3164089,1),
+(52494004,'ANDREA PAOLA GUTIERREZ ROMERO','CRA 6 # 10 - 38',3106571,5),
+(52705875,'ANDREA LILIANA SAMPER MARTINEZ','CARRERA 3 # 12 D 46',3204014,3),
+(52987453,'ANDREA MARCELA BARRAGAN GARCIA','CRA 1A # 12B - 12',3102490,4),
+(52880406,'ANDREA YOHANNA PINZON YEPES','AV. JIMENEZ # 4 - 77',3212574,5);
+
+INSERT INTO venta values
+(1,'2019-07-09',52710695,52962491),
+(2,'2019-07-15',51738984,52517450),
+(3,'2019-07-21',52355290,52427093),
+(4,'2019-07-27',79962291,39625110),
+(5,'2019-08-02',41547273,51963634),
+(6,'2019-08-08',51899077,52329575),
+(7,'2019-08-14',39568175,51553923),
+(8,'2019-08-20',52755672,52835436),
+(9,'2019-08-26',52817196,35353993),
+(10,'2019-09-01',52960227,52146038),
+(11,'2019-09-07',52329187,30402976),
+(12,'2019-09-13',52494004,52771781),
+(13,'2019-09-19',52705875,52252464),
+(14,'2019-09-25',52987453,79800914),
+(15,'2019-10-01',52880406,52252464);
+
+INSERT INTO prenda_venta values
+(2,84000,4,2),
+(4,57000,3,3),
+(6,164000,12,4),
+(7,190000,11,5),
+(8,32000,2,2),
+(2,56000,1,4),
+(1,108000,10,3),
+(3,84000,13,2),
+(9,184000,14,4),
+(4,66000,9,2),
+(6,23000,5,1),
+(2,144000,15,3),
+(4,31000,8,1),
+(8,52000,6,2),
+(6,84000,7,3);
+
+DELIMITER //
+CREATE FUNCTION add_to_inventory_m (cantidad integer, fecha datetime, id integer)
 RETURNS varchar(7)
 DETERMINISTIC
 BEGIN
 	INSERT INTO inventario_m (cantidad,fecha,id_materia_prima) VALUES
 	(cantidad,fecha,id);
 	RETURN 'SUCCESS';
-END$$
-DELIMITER ;
+END; //
 
-DELIMITER $$
-CREATE OR REPLACE FUNCTION add_to_mp_proveedor (id_matp integer, id_prov integer)
+DELIMITER //
+CREATE FUNCTION add_to_mp_proveedor (id_matp integer, id_prov integer)
 RETURNS varchar(7)
 DETERMINISTIC
 BEGIN
 	INSERT INTO mp_proveedor VALUES
 	(id_matp,id_prov);
 	RETURN 'SUCCESS';
-END$$
-DELIMITER ;
-
-///Show functions list -> show function status;
-
-INSERT INTO categoria (nombre) VALUES
-('Boton'),
-('Tela'),
-('Hilo'),
-('Cremallera'),
-('Taches');
-
-INSERT INTO materia_prima (precio, unidad, id_categoria) VALUES
-(50000,'kilogramos', 1),
-(10000,'unidades', 2),
-(50000,'metros', 1);
-
-INSERT INTO inventario_m (cantidad,fecha,id_materia_prima) VALUES
-(10,'2008-7-04', 1),
-(5,'2008-7-04', 2),
-(10,'2008-7-04', 3);
-
-INSERT INTO proveedor (nombre_contacto, razon_social) VALUES
-('Fer','FDev'),
-('Cam','CDev'),
-('Juan','JDev');
-
-INSERT INTO telefono_proveedor VALUES
-(123456,1),
-(223456,2),
-(323456,3);
-
-INSERT INTO mp_proveedor VALUES
-(1,1),
-(2,2),
-(3,3);
+END; //
 
 CREATE VIEW active_providers AS
 SELECT id, nombre_contacto FROM proveedor
 WHERE motivo IS NULL AND fecha_retiro IS NULL;
+
+DELIMITER //
+CREATE TRIGGER add_vat_value
+    BEFORE INSERT ON prenda_venta
+    FOR EACH ROW
+BEGIN
+    SET NEW.precio_total = NEW.precio_total + (NEW.precio_total * 0.12);
+END; //
+
+DELIMITER //
+CREATE TRIGGER set_current_date
+    BEFORE INSERT ON venta
+    FOR EACH ROW
+BEGIN
+	SET NEW.fecha = CURRENT_DATE();
+END; //
