@@ -5,24 +5,26 @@
   <div class="center">
     <ul class="form-group-list">
       <li>
-        <label for="prenda_nombre">Nombre</label>
-        <input type="text" placeholder="Nombre" name="Nombre de la prenda"
-          ng-model="prenda_nombre" ng-value="prenda_nombre" required>
+        <label for="garment_name">Nombre</label>
+        <input type="text" placeholder="Nombre de la Prenda" name="garment_name"
+          ng-model="garment_name" ng-value="garment_name" required>
       </li>
       <li>
-        <label for="prenda_precio">Precio</label>
-        <input type="number" placeholder="Precio" name="Precio de la prenda"
-          ng-model="prenda_precio" ng-value="prenda_precio" required>
+        <label for="garment_price">Precio</label>
+        <input type="number" placeholder="Precio de la Prenda" name="garment_price"
+          ng-model="garment_price" ng-value="garment_price" required>
       </li>
       <li>
-        <label for="prenda_talla">Tallas</label>
-        <input type="number" placeholder="Tallas" name="prenda_talla" 
-          ng-model="prenda_talla" ng-value="prenda_talla" required>
-      </li>  
+        <label for="garment_size">Tallas</label>
+        <select ng-model="garment_size" ng-options="item as item.label for item in size_options track by item.id" required>
+          <option value="">---Seleccione---</option>
+        </select>
+      </li>
       <li>
-        <label for="prenda_tipo">Tipo</label>
-        <input type="text" placeholder="Tipo" name="prenda_tipo" 
-          ng-model="prenda_tipo" ng-value="prenda_tipo" required>
+        <label for="garment_type">Tipo</label>
+        <select ng-model="garment_type" ng-options="item as item.label for item in type_options track by item.id" required>
+          <option value="">---Seleccion---</option>
+        </select>
       </li>  
     </ul>
   </div>

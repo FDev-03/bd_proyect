@@ -1,15 +1,15 @@
 <?php
 
 # Host.
-//define('URL', 'http://localhost/bd_proyect/');
-define('URL', 'http://pruebas/bd_proyect/');
+define('URL', 'http://localhost/bd_proyect/');
+//define('URL', 'http://pruebas/bd_proyect/');
 //define('URL', 'http://192.168.44.44/bd_proyect/');
 
 # Db connection.
 //define('DB', 'vestirnossas');
-define('DB', 'test');
-define('USER', 'test');
-define('PASSWORD', 'root');
+define('DB', 'vestirnossas');
+define('USER', 'root');
+define('PASSWORD', '');
 //define('PASSWORD', '');
 define('HOST', 'localhost');
 define('CHARSET', 'utf8');

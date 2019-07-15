@@ -13,15 +13,17 @@
 		<div id="header">
 			<ul>
 				<li><a href="<?php echo constant('URL'); ?>main">INICIO</a></li>
-                <li class="dropdown" id="multiple">
-                    <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Proveedores<span class="caret"></span></a>
-                    <ul class="dropdown-menu center">
-                        <li><a href="<?php echo constant('URL'); ?>provider?service=true">Contratados</a></li>
-                        <li><a href="<?php echo constant('URL'); ?>provider?service=false">Retirados</a></li>
-                    </ul>
-                </li>
-                <li><a href="<?php echo constant('URL'); ?>rawmaterial">Materia Prima</a></li>
-                <li><a href="<?php echo constant('URL'); ?>garment">Prendas</a></li>
+        <li class="dropdown" id="multiple">
+          <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Proveedores<span class="caret"></span></a>
+          <ul class="dropdown-menu center">
+            <li><a href="<?php echo constant('URL'); ?>provider?service=true">Contratados</a></li>
+            <li><a href="<?php echo constant('URL'); ?>provider?service=false">Retirados</a></li>
+          </ul>
+        </li>
+        <li><a href="<?php echo constant('URL'); ?>rawmaterial">Materia Prima</a></li>
+        <li><a href="<?php echo constant('URL'); ?>garment">Prendas</a></li>
+        <li><a href="<?php echo constant('URL'); ?>client">Clientes</a></li>
+        <li><a href="<?php echo constant('URL'); ?>reports">Reportes</a></li>
 				<li class="close-session" ><a href="<?php echo constant('URL'); ?>logout">Cerrar Sesión</a></li>
 			</ul>
 		</div>

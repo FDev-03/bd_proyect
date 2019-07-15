@@ -58,7 +58,7 @@ create table tipo(
 
 create table prenda(
 	id int NOT NULL,
-	precio int not null,
+	precio int NOT NULL,
 	nombre varchar(40) NOT NULL,
 	talla int NOT NULL,
 	tipo int NOT NULL,
@@ -68,7 +68,7 @@ create table prenda(
 );
 
 create table mp_prenda(
-	id_prenda int NOT NULL,
+	id_prenda int NOT NULL AUTO_INCREMENT,
 	id_materia_prima int NOT NULL,
 	cant_utlizada int NOT NULL,
 	PRIMARY KEY (id_prenda,id_materia_prima),
@@ -169,8 +169,7 @@ INSERT INTO inventario_m values
 (2,2,'2019-07-09',22),
 (3,5,'2019-07-09',23),
 (4,3,'2019-07-10',24),
-(5,6,'2019-07-10',25),
-(6,6,'2019-07-11',21);
+(5,6,'2019-07-10',25);
 
 INSERT INTO tipo values
 (1,'IMPERMEABLE'),
@@ -328,6 +327,10 @@ INSERT INTO prenda_venta values
 (8,52000,6,2),
 (6,84000,7,3);
 
+CREATE VIEW active_providers AS
+SELECT id, nombre_contacto FROM proveedor
+WHERE motivo IS NULL AND fecha_retiro IS NULL;
+
 DELIMITER //
 CREATE FUNCTION add_to_inventory_m (cantidad integer, fecha datetime, id integer)
 RETURNS varchar(7)
@@ -347,10 +350,6 @@ BEGIN
 	(id_matp,id_prov);
 	RETURN 'SUCCESS';
 END; //
-
-CREATE VIEW active_providers AS
-SELECT id, nombre_contacto FROM proveedor
-WHERE motivo IS NULL AND fecha_retiro IS NULL;
 
 DELIMITER //
 CREATE TRIGGER add_vat_value

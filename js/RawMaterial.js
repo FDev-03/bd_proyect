@@ -6,8 +6,8 @@ app.config(['growlProvider', function (growlProvider) {
 
 app.factory('ConfigVariables', function ($http, growl) {
 	return {
-		URL: 'http://pruebas/bd_proyect/',
-		//URL : 'http://localhost/bd_proyect/',
+		//URL: 'http://pruebas/bd_proyect/',
+		URL : 'http://localhost/bd_proyect/',
 		//URL : 'http://192.168.44.44/bd_proyect/',
 		showWarning: function (message) {
 			growl.warning(message, { title: 'Adevertencia!' });

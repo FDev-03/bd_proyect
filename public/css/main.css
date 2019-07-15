@@ -111,6 +111,10 @@ ul .group-list {
 	cursor: pointer;
 }
 
+.Btable{
+	margin: 7px 4px 7px 4px;
+}
+
 .Pagination-links{
 	margin-top: 0;
 	margin-bottom: 0;

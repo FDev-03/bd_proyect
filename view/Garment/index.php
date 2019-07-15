@@ -8,7 +8,7 @@
 		<div>
 			<h1 class="center"> PRENDAS </h1>
 
-			<div ng-show="!not_found_data" id="actions">
+			<div id="actions">
 				<ul class="action-links">
 					<li><button ng-click="addGarment()" class="Button">Agregar Prenda</button></li>
 				</ul>
@@ -18,20 +18,21 @@
 				<h2>No se encontraron prendas.</h2>
 			</div>
 
-			<table ng-show="!not_found_data" id="{{ !service ? 'providers_retired' : 'providers_hired'}}">
+			<table ng-show="!not_found_data" id="garment">
 				<tr>
 					<th>ID</th>
 					<th>PRECIO</th>
-					<th>NOMBRES</th>
-					<th>TALLAS</th>
+					<th>NOMBRE</th>
+					<th>TALLA</th>
 					<th>TIPO</th>
 				</tr>
 				<tr ng-repeat="field in dataMaterial">
 					<td>{{ field.id }}</td>
 					<td>{{ field.precio }}</td>
 					<td>{{ field.nombre }}</td>
-					<td>{{ field.tallas }}</td>
+					<td>{{ field.talla }}</td>
 					<td>{{ field.tipo }}</td>
+					<td><button ng-click="deleteGarment(field.id)" class="Button Btable">Eliminar prenda</button></td>
 				</tr>
 			</table>
 			<div id="pager" class="Pagination">
